@@ -99,7 +99,7 @@ class BrandProduct extends Controller
     }
 
     // front end
-    public function show_brand_home($brand_product_id){
+    public function show_brand_home($brand_product_id,Request $request){
         $cates = DB::table('tbl_category_product')->orderby('category_name','desc')->get();
         $brands = DB::table('tbl_brand')->orderby('brand_name','desc')->get();
         $products = DB::table('tbl_product')
@@ -112,7 +112,9 @@ class BrandProduct extends Controller
                 break;
             }
         }
+        Session::put('success','Hiển thị thành công');
+        $url_canonical = $request->url();
         return view('pages.brand.show_brand_home')->with('cates',$cates)->with('brands',$brands)
-        ->with('products',$products)->with('brand_name',$brand_name);
+        ->with('products',$products)->with('brand_name',$brand_name)->with('url_canonical',$url_canonical);
     }
 }

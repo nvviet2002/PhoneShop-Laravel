@@ -144,7 +144,7 @@ class CheckoutController extends Controller
             $tempOrder->shipping_id = $tempShipping->shipping_id;
             $tempOrder->payment_method = $data['payment_method'];
             $tempOrder->order_total = $total;
-            $tempOrder->order_status = 'Đang chờ xác nhận';
+            $tempOrder->order_status = 0;
             date_default_timezone_set('Asia/Ho_Chi_Minh');
             $tempOrder->created_at = now();
             $tempOrder->save();
@@ -216,6 +216,34 @@ class CheckoutController extends Controller
         // print_r($order);
         // echo '</pre>';
     }
+    public function confirm_order($order_id){
+        $order = Order::find($order_id);
+        $order->order_status = 1;
+        $order->save();
+        return redirect()->back();
+    }
+    public function cancel_order($order_id){
+        $order = Order::find($order_id);
+        $order->order_status = -1;
+        $order->save();
+        return redirect()->back();
+    }
+    public function confirm_delivery_order($order_id){
+        $order = Order::find($order_id);
+        $order->order_status = 2;
+        $order->save();
+        return redirect()->back();
+    }
+    public function confirm_finish_order($order_id){
+        $order = Order::find($order_id);
+        $order->order_status = 3;
+        $order->save();
+        return redirect()->back();
+    }
+
+
+
+
 
     public function select_delivery(Request $request){
         $data = $request->all();

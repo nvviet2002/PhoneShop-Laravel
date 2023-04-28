@@ -25,10 +25,7 @@
             <th>Tên người đặt</th>
             <th>Tổng tiền</th>
             <th>Trạng thái</th>
-            {{-- <th>Thương hiệu</th>
-            <th>Nội dung</th>
-            <th>Mô tả</th>
-            <th>Hiển thị</th> --}}
+            <th>Thời gian đặt</th>
             <th style="width:30px;"></th>
           </tr>
         </thead>
@@ -39,22 +36,20 @@
                     <td>{{ $order->order_id }}</td>
                     <td>{{ $order->customer_name }}</td>
                     <td>{{ $order->order_total }}</td>
-                    <td>{{ $order->order_status }}</td>
-                    {{-- <td><span class="text-ellipsis">
-                        <?php
-                            if($order->order_status == 0){
-                        ?>
-                            <a href="{{URL::to('/active-order/'.$order->order_id)}}">
-                            <i class="fa-thumbs-down-styling fa fa-thumbs-down"></i></a>;
-                        <?php
-                            }else {
-                        ?>
-                            <a href="{{URL::to('/unactive-order/'.$order->order_id)}}">
-                            <i class="fa-thumbs-up-styling fa fa-thumbs-up"></i></a>;
-                        <?php
-                            }
-                        ?>
-                    </span></td> --}}
+                    @php
+                        if($order->order_status == 0){
+                            echo '<td><span class="text-info">'.'Đơn hàng mới'.'</span></td>';
+                        }elseif ($order->order_status == 1) {
+                            echo '<td><span class="text-warning">'.'Đã xác nhận'.'</span></td>';
+                        }elseif ($order->order_status == 2) {
+                            echo '<td><span class="text-warning">'.'Đang giao hàng'.'</span></td>';
+                        }elseif ($order->order_status == 3) {
+                            echo '<td><span class="text-success">'.'Đã hoàn thành'.'</span></td>';
+                        }elseif ($order->order_status == -1) {
+                            echo '<td><span class="text-default">'.'Đã hủy'.'</span></td>';
+                        }
+                    @endphp
+                    <td>{{$order->created_at}}</td>
                     <td>
                     <a href="{{URL::to('/edit-order/'.$order->order_id)}}" class="active styling-edit" ui-toggle-class="">
                         <i class="fa fa-pencil-square-o text-success text-active"></i>

@@ -2,6 +2,20 @@
 @section('admin_content')
 <div class="table-agile-info">
   <div class="panel panel-default">
+    <div class="container-status">
+        @if ($order[0]->order_status == -1)
+        <p class="text text-default">Đơn hàng đã bị hủy</p>
+        @elseif ($order[0]->order_status == 0)
+            <p class="text text-primary">Đơn hàng chưa xác nhận</p>
+        @elseif ($order[0]->order_status == 1)
+            <p class="text text-info">Đơn hàng đã xác nhận</p>
+        @elseif ($order[0]->order_status == 2)
+            <p class="text text-warning">Đơn hàng đang giao</p>
+        @elseif ($order[0]->order_status == 3)
+            <p class="text text-success">Đơn hàng đã hoàn thành</p>
+        @endif
+    </div>
+
     <div class="panel-heading">
       Thông tin người mua
     </div>
@@ -23,12 +37,12 @@
     </div>
     <div class="panel-heading">
         Thông tin vận chuyển
-      </div>
+    </div>
        <div class="table-responsive">
         <table class="table table-striped b-t b-light">
           <thead>
             <tr>
-              <th>Tên người vận chuyển</th>
+              <th>Tên người nhận</th>
               <th>Địa chỉ</th>
               <th>Số điện thoại</th>
             </tr>
@@ -79,27 +93,31 @@
                     <td>{{$order[0]->order_total}}</td>
                 </tr>
           </tfoot>
-
         </table>
       </div>
-    <footer class="panel-footer">
-      <div class="row">
 
-        <div class="col-sm-5 text-center">
-          <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
+    </div>
+    <div class="row" style="text-align: center">
+      @if ($order[0]->order_status != -1 && $order[0]->order_status != 3 )
+        <div class="col-sm-6">
+        <a class="btn btn-cancel" href="{{URL::to('/cancel-order/'.$order[0]->order_id)}}" >Hủy đơn hàng</a>
         </div>
-        <div class="col-sm-7 text-right text-center-xs">
-          <ul class="pagination pagination-sm m-t-none m-b-none">
-            <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-            <li><a href="">1</a></li>
-            <li><a href="">2</a></li>
-            <li><a href="">3</a></li>
-            <li><a href="">4</a></li>
-            <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-          </ul>
+        <div class="col-sm-6">
+            @if ($order[0]->order_status == 0)
+                <a class="btn btn-info" href="{{URL::to('/confirm-order/'.$order[0]->order_id)}}" >Xác nhận đơn hàng</a>
+            @elseif ($order[0]->order_status == 1)
+                <a class="btn btn-info" href="{{URL::to('/confirm-delivery-order/'.$order[0]->order_id)}}" >Xác nhận giao hàng</a>
+            @elseif ($order[0]->order_status == 2)
+                <a class="btn btn-success" href="{{URL::to('/confirm-finish-order/'.$order[0]->order_id)}}" >Hoàn thành</a>
+            @endif
         </div>
-      </div>
-    </footer>
-  </div>
+      @endif
+    </div>
 </div>
+
+<footer class="panel-footer">
+    <div class="row">
+
+    </div>
+  </footer>
 @endsection

@@ -64,7 +64,7 @@ Route::get('/show-order',[CheckoutController::class, 'show_order']);
 //mail
 Route::get('/send-mail',[HomeController::class, 'send_mail']);
 
-//backend
+//////////////////////////////////backend////////////////////////
 Route::get('/admin',[AdminController::class, 'index']);
 Route::get('/dashboard',[AdminController::class, 'show_dashboard']);
 Route::get('/logout',[AdminController::class, 'logout']);
@@ -107,6 +107,12 @@ Route::post('/save-product',[ProductController::class, 'save_product']);
 Route::get('/all-order',[CheckoutController::class, 'all_order']);
 Route::get('/edit-order/{order_id}',[CheckoutController::class, 'edit_order']);
 Route::get('/delete-order/{order_id}',[CheckoutController::class, 'delete_order']);
+Route::get('/confirm-order/{order_id}',[CheckoutController::class, 'confirm_order']);
+Route::get('/cancel-order/{order_id}',[CheckoutController::class, 'cancel_order']);
+Route::get('/confirm-delivery-order/{order_id}',[CheckoutController::class, 'confirm_delivery_order']);
+Route::get('/confirm-finish-order/{order_id}',[CheckoutController::class, 'confirm_finish_order']);
+
+
 
 //coupon
 Route::get('/add-coupon',[CouponController::class, 'add_coupon']);

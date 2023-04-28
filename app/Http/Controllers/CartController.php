@@ -61,8 +61,10 @@ class CartController extends Controller
                     }
                 }
             }
+            Session::put('success','Cập nhật giỏ hàng thành công');
             return redirect()->back()->with('message','Cập nhật giỏ hàng thành công');
         }else{
+            Session::put('error','Cập nhật giỏ hàng thất bại');
             return redirect()->back()->with('message','Cập nhật giỏ hàng thất bại');
         }
     }

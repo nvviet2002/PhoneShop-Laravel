@@ -33,6 +33,79 @@
 </head><!--/head-->
 
 <body>
+    <script>
+        function toast({ title = "", message = "", type = "info", duration = 3000 }) {
+            const main = document.getElementById("toast");
+            if (main) {
+            const toast = document.createElement("div");
+
+            // Auto remove toast
+            const autoRemoveId = setTimeout(function () {
+                main.removeChild(toast);
+            }, duration + 1000);
+
+            // Remove toast when clicked
+            toast.onclick = function (e) {
+                if (e.target.closest(".toast__close")) {
+                main.removeChild(toast);
+                clearTimeout(autoRemoveId);
+                }
+            };
+
+            const icons = {
+                success: "fas fa-check-circle",
+                info: "fas fa-info-circle",
+                warning: "fas fa-exclamation-circle",
+                error: "fas fa-exclamation-circle"
+            };
+            const icon = icons[type];
+            const delay = (duration / 1000).toFixed(2);
+
+            toast.classList.add("toast", `toast--${type}`);
+            toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
+
+            toast.innerHTML = `
+                            <div class="toast__icon">
+                                <i class="${icon}"></i>
+                            </div>
+                            <div class="toast__body">
+                                <h3 class="toast__title">${title}</h3>
+                                <p class="toast__msg">${message}</p>
+                            </div>
+                            <div class="toast__close">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        `;
+            main.appendChild(toast);
+            }
+        }
+    </script>
+    @php
+        $success = Session::get('success');
+        $error = Session::get('error');
+        if($success){
+            echo '<script>
+                    toast({
+                    title: "Thành công!",
+                    message: "'.$success.'",
+                    type: "success",
+                    duration: 5000
+                    });
+                </script>';
+            Session::put('success',null);
+        }elseif ($error) {
+            echo '<script>
+                    toast({
+                    title: "Thất bại!",
+                    message: "'.$error.'",
+                    type: "error",
+                    duration: 5000
+                    });
+                </script>';
+            Session::put('error',null);
+        }
+    @endphp
+    <div id="toast"></div>
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -429,6 +502,7 @@
 
 
 
+
     <script src="{{asset('public/frontend/js/jquery.js')}}"></script>
 	<script src="{{asset('public/frontend/js/bootstrap.min.js')}}"></script>
 	<script src="{{asset('public/frontend/js/jquery.scrollUp.min.js')}}"></script>
@@ -472,6 +546,7 @@
             })
         });
     </script>
+
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v16.0" nonce="5R2yvYZg"></script>
 

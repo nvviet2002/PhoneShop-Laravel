@@ -9,8 +9,7 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use App\Rules\Captcha;
-session_start();
-
+//session_start();
 class AdminController extends Controller
 {
     public static function AuthAdmin(){

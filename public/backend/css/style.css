@@ -3167,3 +3167,11 @@ a.active.styling-edit {
 a.active.styling-delete {
     font-size: 20px;
 }
+
+.container-status {
+    text-align: center;
+    padding: 4px;
+}
+.container-status p{
+    font-size: 1.4rem;
+}
