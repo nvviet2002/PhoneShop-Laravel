@@ -196,7 +196,7 @@ class CheckoutController extends Controller
         ->join('tbl_customer','tbl_customer.customer_id','=','tbl_order.customer_id')
         ->select('tbl_order.*','tbl_customer.customer_name')->orderby('order_id','desc')
         ->get();
-        $manager_order = view('admin.all_order')->with('all_order',$all_order);
+        $manager_order = view('admin.order.all_order')->with('all_order',$all_order);
         // return view('admin_layout')->with('admin.all_category_product',$manager_category_product);
         return $manager_order;
     }
@@ -209,13 +209,19 @@ class CheckoutController extends Controller
         ->join('tbl_shipping','tbl_shipping.shipping_id','=','tbl_order.shipping_id')
         ->join('tbl_order_details','tbl_order_details.order_id','=','tbl_order.order_id')
         ->where('tbl_order.order_id',$order_id)->get();
-        $manager_order = view('admin.edit_order')->with('order',$order);
+        $manager_order = view('admin.order.edit_order')->with('order',$order);
         // return view('admin_layout')->with('admin.all_category_product',$manager_category_product);
         return $manager_order;
         // echo '<pre>';
         // print_r($order);
         // echo '</pre>';
     }
+    public function delete_order($order_id){
+        $order = Order::find($order_id);
+        $order->delete();
+        return redirect()->back();
+    }
+
     public function confirm_order($order_id){
         $order = Order::find($order_id);
         $order->order_status = 1;

@@ -138,9 +138,9 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="{{URL::to('/')}}"><img src="{{('public/frontend/images/logo.png')}}" alt="" /></a>
+							<a href="{{URL::to('/')}}"><img src="{{URL::to('public/frontend/images/logo.png')}}" alt="" /></a>
 						</div>
-						<div class="btn-group pull-right">
+						{{-- <div class="btn-group pull-right">
 							<div class="btn-group">
 								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
 									USA
@@ -162,7 +162,7 @@
 									<li><a href="#">Pound</a></li>
 								</ul>
 							</div>
-						</div>
+						</div> --}}
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
@@ -262,20 +262,29 @@
 						</ol>
 
 						<div class="carousel-inner">
-							<div class="item active">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free E-Commerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="{{('public/frontend/images/girl1.jpg')}}" class="girl img-responsive" alt="" />
-									<img src="{{('public/frontend/images/pricing.png')}}"  class="pricing" alt="" />
-								</div>
-							</div>
+							@foreach ($slides as $key => $slide)
+								@if ($slide == $slides[0])
+									<div class="item active">
+										<div class="col-sm-12">
+											<img src="{{URL::to('public/upload/slide/'.$slide->slide_image)}}" class="girl img-responsive" alt="" />
+										</div>
+									</div>
+								@else
+									<div class="item">
+										{{-- <div class="col-sm-6">
+											<h1>{{$slide->slide_name}}</h1>
+											<h2>Free E-Commerce Template</h2>
+											<p>{{$slide->slide_desc}}</p>
+										</div> --}}
+										<div class="col-sm-12">
+											<img src="{{URL::to('public/upload/slide/'.$slide->slide_image)}}" class="girl img-responsive" alt="" />
+										</div>
+									</div>
+								@endif
 
+                            @endforeach
 						</div>
+
 
 						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
 							<i class="fa fa-angle-left"></i>
@@ -300,8 +309,8 @@
 							@foreach ($cates as $key => $cate)
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h4 class="panel-title"><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}"
-                                            >{{$cate->category_name}}</a></h4>
+                                        <h4 class="panel-title"><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}">
+                                            <span class="pull-right">({{$cate->product_count}})</span>{{$cate->category_name}}</a></h4>
                                     </div>
                                 </div>
                             @endforeach
@@ -314,7 +323,7 @@
 								<ul class="nav nav-pills nav-stacked">
                                     @foreach ($brands as $key => $brand)
                                         <li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand->brand_id)}}"
-                                        > <span class="pull-right">(50)</span>{{$brand->brand_name}}</a></li>
+                                        > <span class="pull-right">({{$brand->product_count}})</span>{{$brand->brand_name}}</a></li>
                                     @endforeach
 								</ul>
 							</div>
@@ -357,7 +366,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="{{('public/frontend/images/iframe1.png')}}" alt="" />
+										<img src="{{URL::to('public/frontend/images/iframe1.png')}}" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -402,7 +411,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="{{('public/frontend/images/iframe1.png')}}" alt="" />
+										<img src="{{URL::to('public/frontend/images/iframe1.png')}}" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -415,7 +424,7 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="address">
-							<img src="{{('public/frontend/images/iframe1.png')}}" alt="" />
+							<img src="{{URL::to('public/frontend/images/iframe1.png')}}" alt="" />
 							<p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
 						</div>
 					</div>

@@ -9,6 +9,8 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use App\Rules\Captcha;
+use App\Models\Order;
+use App\Models\OrderDetail;
 //session_start();
 class AdminController extends Controller
 {
@@ -21,12 +23,15 @@ class AdminController extends Controller
     }
 
     public function index(){
-        return view('admin_login');
+        return view('layouts.admin_login');
     }
 
     public function show_dashboard(){
         AdminController::AuthAdmin();
-        return view('admin.dashboard');
+        $orders = DB::table('tbl_order')->where('order_status',1)->get();
+        $customers = DB::table('tbl_customer')->get();
+        return view('admin.dashboard.dashboard')->with('orders',$orders)
+        ->with('customers',$customers);
     }
 
     public function dashboard(Request $request){
@@ -55,6 +60,12 @@ class AdminController extends Controller
             Session::put('message',"Tài khoản hoặc mật khẩu sai, vui lòng đăng nhập lại");
             return Redirect::to('/admin');
         }
+    }
+
+    public function filter_by_date_ajax(Request $request){
+        $data = $request->all();
+        $from_date = $data['from_date'];
+        $to_date = $data['to_date'];
     }
 
     public function logout(){

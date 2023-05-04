@@ -13,7 +13,7 @@ class BrandProduct extends Controller
 {
     public function add_brand_product(){
         AdminController::AuthAdmin();
-        return view('admin.add_brand_product');
+        return view('admin.brand.add_brand_product');
     }
 
     public function edit_brand_product($brand_product_id){
@@ -21,7 +21,7 @@ class BrandProduct extends Controller
         // $edit_brand_product =  DB::table('tbl_brand')->where('brand_id',$brand_product_id)
         // ->get();
         $edit_brand_product = Brand::find($brand_product_id);
-        $manager_brand_product = view('admin.edit_brand_product')
+        $manager_brand_product = view('admin.brand.edit_brand_product')
         ->with('edit_brand_product',$edit_brand_product);
         //return view('admin_layout')->with('admin.all_brand_product',$manager_brand_product);
         return $manager_brand_product;
@@ -33,7 +33,7 @@ class BrandProduct extends Controller
         // $all_brand_product = Brand::all();
         $all_brand_product = Brand::orderBy('brand_id','DESC')->take(10)->get();
         // $all_brand_product = Brand::orderBy('brand_id','DESC')->paginate(10);
-        $manager_brand_product = view('admin.all_brand_product')
+        $manager_brand_product = view('admin.brand.all_brand_product')
         ->with('all_brand_product',$all_brand_product);
         //return view('admin_layout')->with('admin.all_brand_product',$manager_brand_product);
         return $manager_brand_product;
@@ -100,11 +100,23 @@ class BrandProduct extends Controller
 
     // front end
     public function show_brand_home($brand_product_id,Request $request){
-        $cates = DB::table('tbl_category_product')->orderby('category_name','desc')->get();
-        $brands = DB::table('tbl_brand')->orderby('brand_name','desc')->get();
+        $cates = DB::table('tbl_category_product')
+        ->join('tbl_product','tbl_category_product.category_id','=','tbl_product.category_id')
+        ->select('tbl_category_product.category_id','tbl_category_product.category_name', DB::raw('count(*) as product_count'))
+        ->groupBy('tbl_category_product.category_id','tbl_category_product.category_name')
+        ->orderby('category_name','asc')->get();
+        $brands = DB::table('tbl_brand')
+        ->join('tbl_product','tbl_brand.brand_id','=','tbl_product.brand_id')
+        ->select('tbl_brand.brand_id','tbl_brand.brand_name', DB::raw('count(*) as product_count'))
+        ->groupBy('tbl_brand.brand_id','tbl_brand.brand_name')
+        ->orderby('brand_name','asc')->get();
         $products = DB::table('tbl_product')
         ->join('tbl_brand','tbl_product.brand_id','=','tbl_brand.brand_id')
         ->where('tbl_product.brand_id',$brand_product_id)->orderby('product_id','desc')->get();
+        $slides = DB::table('tbl_slide')->where('slide_status','1')->orderby('slide_id','desc')
+        ->limit(3)->get();
+
+
         $brand_name ='';
         foreach($brands as $key => $brand){
             if($brand->brand_id == $brand_product_id){
@@ -115,6 +127,6 @@ class BrandProduct extends Controller
         Session::put('success','Hiển thị thành công');
         $url_canonical = $request->url();
         return view('pages.brand.show_brand_home')->with('cates',$cates)->with('brands',$brands)
-        ->with('products',$products)->with('brand_name',$brand_name)->with('url_canonical',$url_canonical);
+        ->with('products',$products)->with('brand_name',$brand_name)->with('slides',$slides)->with('url_canonical',$url_canonical);
     }
 }

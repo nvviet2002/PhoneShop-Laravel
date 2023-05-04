@@ -1,4 +1,4 @@
-@extends('admin_layout')
+@extends('layouts.admin_layout')
 @section('admin_content')
 <div class="row">
     <div class="col-lg-12">
@@ -33,13 +33,17 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Mô tả sản phẩm</label>
-                            <textarea class="form-control" style="resize: none;" rows="8" name="product_desc" id="exampleInputPassword1"
-                            >{{$pro->product_desc}}</textarea>
+                            <textarea name="product_desc" id="editor1">{{$pro->product_desc}}</textarea>
                         </div>
+                        {{-- <div class="form-group">
+                            <textarea name="editor1" id="ckeditor1" rows="10" cols="80">
+                                This is my textarea to be replaced with CKEditor 4.
+                            </textarea>
+                        </div> --}}
                         <div class="form-group">
                             <label for="exampleInputPassword1">Nội dung sản phẩm</label>
-                            <textarea class="form-control" style="resize: none;" rows="8" name="product_content" id="exampleInputPassword1"
-                            >{{$pro->product_content}}</textarea>
+                            <textarea name="product_content" id="editor2">{{$pro->product_content}}</textarea>
+
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Danh mục sản phẩm</label>

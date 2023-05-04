@@ -14,7 +14,7 @@ class ProductController extends Controller
         AdminController::AuthAdmin();
         $cates = DB::table('tbl_category_product')->orderby('category_name','desc')->get();
         $brands = DB::table('tbl_brand')->orderby('brand_name','desc')->get();
-        return view('admin.add_product')->with('cates',$cates)->with('brands',$brands);
+        return view('admin.product.add_product')->with('cates',$cates)->with('brands',$brands);
     }
 
     public function edit_product($product_id){
@@ -23,7 +23,7 @@ class ProductController extends Controller
         ->get();
         $cates = DB::table('tbl_category_product')->orderby('category_name','desc')->get();
         $brands = DB::table('tbl_brand')->orderby('brand_name','desc')->get();
-        $manager_product = view('admin.edit_product')->with('edit_product',$edit_product)
+        $manager_product = view('admin.product.edit_product')->with('edit_product',$edit_product)
         ->with('cates',$cates)->with('brands',$brands);
         //return view('admin_layout')->with('admin.all_product',$manager_product);
         return $manager_product;
@@ -35,7 +35,7 @@ class ProductController extends Controller
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
         ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
         ->orderby('tbl_product.product_id','desc')->get();
-        $manager_product = view('admin.all_product')
+        $manager_product = view('admin.product.all_product')
         ->with('all_product',$all_product);
         //return view('admin_layout')->with('admin.all_product',$manager_product);
         return $manager_product;
@@ -131,9 +131,18 @@ class ProductController extends Controller
 
     //front end
     public function show_details_product($product_id,Request $request){
-        $cates = DB::table('tbl_category_product')->orderby('category_name','asc')->get();
-        $brands = DB::table('tbl_brand')->orderby('brand_name','asc')->get();
-
+        $cates = DB::table('tbl_category_product')
+        ->join('tbl_product','tbl_category_product.category_id','=','tbl_product.category_id')
+        ->select('tbl_category_product.category_id','tbl_category_product.category_name', DB::raw('count(*) as product_count'))
+        ->groupBy('tbl_category_product.category_id','tbl_category_product.category_name')
+        ->orderby('category_name','asc')->get();
+        $brands = DB::table('tbl_brand')
+        ->join('tbl_product','tbl_brand.brand_id','=','tbl_product.brand_id')
+        ->select('tbl_brand.brand_id','tbl_brand.brand_name', DB::raw('count(*) as product_count'))
+        ->groupBy('tbl_brand.brand_id','tbl_brand.brand_name')
+        ->orderby('brand_name','asc')->get();
+        $slides = DB::table('tbl_slide')->where('slide_status','1')->orderby('slide_id','desc')
+        ->limit(3)->get();
         $detail_product =  DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
         ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
@@ -150,7 +159,7 @@ class ProductController extends Controller
         ->whereNotIn('tbl_product.product_id',[$product_id])->get();
 
         return view('pages.product.show_details_product')->with('cates',$cates)
-        ->with('brands',$brands)->with('detail_product',$detail_product)
+        ->with('brands',$brands)->with('detail_product',$detail_product)->with('slides',$slides)
         ->with('related_pros',$related_products)->with('url_canonical',$request->url());
     }
 }

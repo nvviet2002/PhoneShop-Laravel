@@ -28,6 +28,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\SlideController;
 
 //frontend
 Route::get('/',[HomeController::class, 'index']);
@@ -122,4 +123,16 @@ Route::post('/save-coupon',[CouponController::class, 'save_coupon']);
 Route::post('/check-coupon',[CouponController::class, 'check_coupon']);
 Route::get('/clear-coupon',[CouponController::class, 'clear_coupon']);
 
-//delivery
+//slide
+Route::get('/add-slide',[SlideController::class, 'add_slide']);
+Route::get('/delete-slide/{slide_id}',[SlideController::class, 'delete_slide']);
+Route::get('/all-slide',[SlideController::class, 'all_slide']);
+Route::get('/active-slide/{slide_id}',[SlideController::class, 'active_slide']);
+Route::get('/unactive-slide/{slide_id}',[SlideController::class, 'unactive_slide']);
+Route::post('/save-slide',[SlideController::class, 'save_slide']);
+
+//dashboard
+Route::post('/filter-by-date-ajax',[AdminController::class, 'filter_by_date_ajax']);
+
+
+

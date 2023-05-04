@@ -1,14 +1,13 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('content')
 @foreach ($detail_product as $key => $detail_pro)
 <div class="product-details"><!--product-details-->
     <div class="col-sm-5">
         <div class="view-product">
             <img src="{{URL::to('public/upload/product/'.$detail_pro->product_image)}}" alt="" />
-            <h3>ZOOM</h3>
+            <h3>Sale off 12%</h3>
         </div>
-        <div id="similar-product" class="carousel slide" data-ride="carousel">
-
+        {{-- <div id="similar-product" class="carousel slide" data-ride="carousel">
               <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     <div class="item active">
@@ -36,12 +35,12 @@
               <a class="right item-control" href="#similar-product" data-slide="next">
                 <i class="fa fa-angle-right"></i>
               </a>
-        </div>
+        </div> --}}
 
     </div>
     <div class="col-sm-7">
         <div class="product-information"><!--/product-information-->
-            <img src="images/product-details/new.jpg" class="newarrival" alt="" />
+            <img src="{{URL::to('public/frontend/images/new.jpg')}}" class="newarrival" alt="" />
             <h2>{{$detail_pro->product_name}}</h2>
             <p>Mã: {{$detail_pro->product_id}}</p>
             <img src="{{URL::to('public/frontend/images/rating.png')}}" alt="" />
@@ -49,7 +48,7 @@
                 {{ csrf_field() }}
                 <span>
                     <span>{{number_format($detail_pro->product_price).' VND'}}</span>
-                    <label>Quantity:</label>
+                    <label>Số lượng:</label>
                     <input type="number" name="quantity" min="1" value="1" />
                     <input type="hidden" name="product_id_hidden" value="{{$detail_pro->product_id}}" />
                     <button type="submit" class="btn btn-fefault cart">
@@ -71,42 +70,46 @@
 <div class="category-tab shop-details-tab"><!--category-tab-->
     <div class="col-sm-12">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#details" data-toggle="tab">Mô tả</a></li>
-            <li><a href="#companyprofile" data-toggle="tab">Chi tiết sản phẩm</a></li>
+            <li class="active"><a href="#desc" data-toggle="tab">Mô tả</a></li>
+            <li><a href="#details" data-toggle="tab">Chi tiết sản phẩm</a></li>
             <li><a href="#reviews" data-toggle="tab">Đánh giá</a></li>
         </ul>
     </div>
     <div class="tab-content">
-        <div class="tab-pane fade active in" id="details" >
-            <div class="col-sm-3">
-                <p>{{$detail_pro->product_content}}</p>
-            </div>
+        <div class="tab-pane fade active in" id="desc" >
+            @php
+                echo $detail_pro->product_desc;
+            @endphp
         </div>
-        <div class="tab-pane fade" id="companyprofile" >
-            <div class="col-sm-3">
-                <p>{{$detail_pro->product_desc}}</p>
-            </div>
+        <div class="tab-pane fade" id="details" >
+            @php
+                echo $detail_pro->product_content;
+            @endphp
         </div>
 
         <div class="tab-pane fade" id="reviews" >
             <div class="col-sm-12">
                 <ul>
-                    <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
-                    <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
+                    <li><a href=""><i class="fa fa-user"></i>Hải Phòng</a></li>
+                    <li><a href=""><i class="fa fa-clock-o"></i>
+                    @php
+                        echo date("h:i:sa");
+                    @endphp
+                    </a></li>
                     <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
                 </ul>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                <p><b>Write Your Review</b></p>
+                <p>Chúng tôi rất hân hạnh khi được đón tiếp bạn tại trang web này và sẽ còn vui hơn nữa khi bạn có thể giúp chúng tôi đánh giá về sản phẩm này để chúng tôi càng ngày hoàn thiện hơn nữa cho dịch vụ và vươn tới phát triển bền vững.</p>
+                <p><b>Viết về đánh giá của bạn</b></p>
 
                 <form action="#">
                     <span>
-                        <input type="text" placeholder="Your Name"/>
-                        <input type="email" placeholder="Email Address"/>
+                        <input type="text" placeholder="Tên của bạn"/>
+                        <input type="email" placeholder="Địa chỉ email"/>
                     </span>
                     <textarea name="" ></textarea>
-                    <b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
+                    <b>Đánh giá: </b> <img src="{{URL::to('public/frontend/images/rating.png')}}" alt="" />
                     <button type="button" class="btn btn-default pull-right">
-                        Submit
+                        Gửi
                     </button>
                 </form>
             </div>

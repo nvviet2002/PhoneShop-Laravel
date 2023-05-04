@@ -1,4 +1,4 @@
-@extends('admin_layout')
+@extends('layouts.admin_layout')
 @section('admin_content')
 <div class="row">
     <div class="col-lg-12">
@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Mô tả sản phẩm</label>
-                            <textarea name="product_content" id="editor1"></textarea>
+                            <textarea name="product_desc" id="editor1"></textarea>
                         </div>
                         {{-- <div class="form-group">
                             <textarea name="editor1" id="ckeditor1" rows="10" cols="80">

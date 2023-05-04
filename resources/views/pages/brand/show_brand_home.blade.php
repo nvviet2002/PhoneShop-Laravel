@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('content')
 <div class="features_items"><!--features_items-->
     <h2 class="title text-center">{{$brand_name}}</h2>

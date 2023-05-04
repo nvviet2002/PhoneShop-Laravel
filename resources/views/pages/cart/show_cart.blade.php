@@ -1,4 +1,4 @@
-@extends('layout1')
+@extends('layouts.layout1')
 @section('content')
 <section id="cart_items">
     <div class="container">

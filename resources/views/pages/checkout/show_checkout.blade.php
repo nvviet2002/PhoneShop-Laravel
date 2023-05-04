@@ -1,4 +1,4 @@
-@extends('layout1')
+@extends('layouts.layout1')
 @section('content')
 <div class="register-req">
     <p>Hãy kiểm tra chính xác thông tin đặt hảng để giúp chúng tôi giao đến bạn nhanh hơn</p>

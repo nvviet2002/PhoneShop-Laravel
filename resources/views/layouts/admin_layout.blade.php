@@ -20,6 +20,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link rel="stylesheet" href="{{asset('public/backend/css/morris.css')}}" type="text/css"/>
 <!-- calendar -->
 <link rel="stylesheet" href="{{asset('public/backend/css/monthly.css')}}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <!-- //calendar -->
 <!-- //font-awesome icons -->
 <script src="{{asset('public/backend/js/jquery2.0.3.min.js')}}"></script>
@@ -27,6 +28,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/js/morris.js')}}"></script>
 <script src="{{asset('public/backend/ckeditor/ckeditor.js')}}"></script>
 <script src="{{asset('public/backend/js/form-validation.js')}}"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 {{-- <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/decoupled-document/ckeditor.js"></script> --}}
 </head>
 <body>
@@ -86,13 +88,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <!-- sidebar menu start-->
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
-                {{-- <li class="sub-menu">
+                <li class="sub-menu">
                     <a class="active" href="{{URL::to('/dashboard')}}">
                         <i class="fa fa-dashboard"></i>
                         <span>Tổng quan</span>
                     </a>
-                </li> --}}
-
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Slide</span>
+                    </a>
+                    <ul class="sub">
+						<li><a href="{{URL::to('/add-slide')}}">Thêm slide</a></li>
+						<li><a href="{{URL::to('/all-slide')}}">Liệt kê slide</a></li>
+                    </ul>
+                </li>
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
@@ -203,6 +214,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     CKEDITOR.replace( 'editor2' );
 </script>
 <script>
+    $( function() {
+      $( "#datepicker1" ).datepicker({
+        prevText: "Tháng trước",
+        nextText: "Tháng sau",
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: ["Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ nhật" ],
+        duration: "slow"
+      });
+    } );
+    $( function() {
+        $( "#datepicker2" ).datepicker({
+        prevText: "Tháng trước",
+        nextText: "Tháng sau",
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: ["Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ nhật" ],
+        duration: "slow"
+      });
+    } );
+    $(document).ready(function(){
+        $('#btn-dashboard-filter').click(function(){
+            var _token = $('input[name="_token"]').val();
+            var from_date = $('#datepicker1').val();
+            var to_date = $('#datepicker2').val();
+            $.ajax({
+                url: `{{url('/filter-by-date-ajax')}}`,
+                method: 'POST',
+                type: 'JSON',
+                data:{from_date:from_date,to_date:to_date,_token:_token},
+                success:function(data){
+                    chart.setData(data);
+                }
+            })
+        });
+    });
+</script>
+<script>
 	$(document).ready(function() {
 		//BOX BUTTON SHOW AND CLOSE
 	   jQuery('.small-graph-box').hover(function() {
@@ -289,5 +336,40 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		});
 	</script>
 	<!-- //calendar -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.add-to-cart').click(function(){
+                var id = $(this).data('id_product');
+                var cart_product_id = $('.cart_product_id_'+id).val();
+                var cart_product_name = $('.cart_product_name_'+id).val();
+                var cart_product_image = $('.cart_product_image_'+id).val();
+                var cart_product_price = $('.cart_product_price_'+id).val();
+                var cart_product_qty = $('.cart_product_qty_'+id).val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: `{{url('/add-cart-ajax')}}`,
+                    method: 'POST',
+                    data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,
+                        cart_product_image:cart_product_image,cart_product_price:cart_product_price,
+                        cart_product_qty:cart_product_qty,_token:_token,
+                    },
+                    success:function(data){
+                        swal({
+                            title: "Thêm thành công",
+                            text: "Sản phẩm đã được thêm vào giỏ hàng",
+                            type: "success",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-success",
+                            confirmButtonText: "Đi tới giỏ hàng",
+                            closeOnConfirm: false
+                        },
+                        function(){
+                            window.location.href = "{{url('/show-cart')}}";
+                        });
+                    }
+                })
+            })
+        });
+    </script>
 </body>
 </html>

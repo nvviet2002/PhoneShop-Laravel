@@ -3,7 +3,7 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading">
-      Danh sách thương hiệu
+      Danh sách slide
     </div>
     <div class="row w3-res-tb">
       <div class="col-sm-5 m-b-xs">
@@ -42,41 +42,44 @@
                 <input type="checkbox"><i></i>
               </label>
             </th>
-            <th>Tên mã giảm giá</th>
-            <th>Mã giảm giá</th>
-            <th>Số lượng giảm giá</th>
-            <th>Điều kiện giảm giá</th>
-            <th>Số giảm</th>
+            <th>Tên slide</th>
+            <th>Hình ảnh</th>
+            <th>Mô tả</th>
+            <th>Hiển thị</th>
             <th style="width:30px;"></th>
           </tr>
         </thead>
         <tbody>
-            @foreach ( $coupons as $key => $value)
+            @foreach ( $slides as $key => $slide)
                 <tr>
                     <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                    <td><span class="text-ellipsis">{{$value->coupon_name}}</span></td>
-                    <td><span class="text-ellipsis">{{$value->coupon_code}}</span></td>
-                    <td><span class="text-ellipsis">{{$value->coupon_time}}</span></td>
+                    <td>{{ $slide->slide_name }}</td>
+                    <td><img src="public/upload/slide/{{$slide->slide_image}}" width="320" height="80"></td>
+                    <td><span class="text-ellipsis">{{$slide->slide_desc}}</span></td>
+                    <td><span class="text-ellipsis">
                         <?php
-                            if($value->coupon_condition == 0){
+                            if($slide->slide_status == 0){
                         ?>
-                            <td><span class="text-ellipsis">Giảm theo %</span></td>
-                            <td><span class="text-ellipsis">Giảm {{$value->coupon_number}}%</span></td>
+                            <a href="{{URL::to('/active-slide/'.$slide->slide_id)}}">
+                            <i class="fa-thumbs-down-styling fa fa-thumbs-down"></i></a>;
                         <?php
-                        }else{
+                            }else {
                         ?>
-                            <td><span class="text-ellipsis">Giảm theo số tiền</span></td>
-                            <td><span class="text-ellipsis">Giảm {{number_format($value->coupon_number).' VND'}}</span></td>
+                            <a href="{{URL::to('/unactive-slide/'.$slide->slide_id)}}">
+                            <i class="fa-thumbs-up-styling fa fa-thumbs-up"></i></a>;
                         <?php
-                        }
+                            }
                         ?>
-                        <td>
-                            <a onclick="return confirm('Bạn có chắc chắn muốn xóa mã giảm giá này không ?');" href="{{URL::to('/delete-coupon/'.$value->coupon_id)}}" class="active styling-delete" ui-toggle-class="">
-                                <i class="fa fa-times text-danger text"></i>
-                            </a>
-                        </td>
+                    </span></td>
+                    <td>
+                    <a onclick="return confirm('Bạn có chắc chắn muốn xóa slide này không ?');" href="{{URL::to('/delete-slide/'.$slide->slide_id)}}" class="active styling-delete" ui-toggle-class="">
+                        <i class="fa fa-times text-danger text"></i>
+                    </a>
+                    </td>
                 </tr>
             @endforeach
+
+
         </tbody>
       </table>
     </div>
