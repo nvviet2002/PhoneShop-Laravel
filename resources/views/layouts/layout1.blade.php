@@ -15,6 +15,7 @@
 	<link href="{{asset('public/frontend/css/main.css')}}" rel="stylesheet">
 	<link href="{{asset('public/frontend/css/responsive.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/sweetalert.css')}}" rel="stylesheet">
+
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -61,29 +62,6 @@
 						<div class="logo pull-left">
 							<a href="{{URL::to('/')}}"><img src="{{('public/frontend/images/logo.png')}}" alt="" /></a>
 						</div>
-						<div class="btn-group pull-right">
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									USA
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canada</a></li>
-									<li><a href="#">UK</a></li>
-								</ul>
-							</div>
-
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									DOLLAR
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canadian Dollar</a></li>
-									<li><a href="#">Pound</a></li>
-								</ul>
-							</div>
-						</div>
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
@@ -116,13 +94,10 @@
                                 <?php
                                     }else{
                                 ?>
-                                <li><a href="{{URL::to('/logout-customer')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
+                                <li><a href="{{URL::to('/logout-customer')}}"><i class="fa fa-user"></i> Đăng xuất</a></li>
                                 <?php
                                     }
                                 ?>
-
-
-
 							</ul>
 						</div>
 					</div>
@@ -133,8 +108,8 @@
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-8">
-						<div class="navbar-header">
+					<div class="col-sm-5">
+                        <div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
 								<span class="icon-bar"></span>
@@ -144,27 +119,40 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="{{URL::to('/trang-chu')}}" class="active">Trang chủ</a></li>
+								<li><a href="{{URL::to('/')}}" class="active">Trang chủ</a></li>
+
 								<li class="dropdown"><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Sản phẩm</a></li>
+                                        @foreach ($brands as $key => $brand)
+                                        <li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand->brand_id)}}">{{$brand->brand_name}}</a></li>
+                                        @endforeach
                                     </ul>
                                 </li>
-								<li class="dropdown"><a href="#">Tin tức<i class="fa fa-angle-down"></i></a>
-                                </li>
-								<li><a href="404.html">Giỏ hàng</a></li>
-								<li><a href="contact-us.html">Liên hệ</a></li>
+								<li><a href="{{URL::to('/lien-he')}}">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-7">
                         <form action="{{URL::to('/tim-kiem')}}" method="POST">
                             {{ csrf_field() }}
-                            <div class="search_box pull-right">
-                                <input type="text" name="search_input" placeholder="Search"/>
-                                <button type="submit" name="search_product" class="btn btn-primary" style="margin-top: 0px;" >Tìm kiếm</button>
+                            <div class="col-sm-3">
+                                <select name="search_price" style="margin-top: 4px">
+                                    <option value="0">Tất cả</option>
+                                    <option value="1">Dưới 5 triệu</option>
+                                    <option value="2">5-10 triệu</option>
+                                    <option value="3">10-20 triệu</option>
+                                    <option value="4">20-30 triệu</option>
+                                    <option value="5">Trên 30 triệu </option>
+                                </select>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="search_box">
+                                    <input type="text"name="search_input" class="flex-grow-1" placeholder="Search"/>
+                                    <button type="submit" name="search_product" class="btn btn-primary" style="margin-top: 0px" >Tìm kiếm</button>
+                                </div>
                             </div>
                         </form>
+
 					</div>
 				</div>
 			</div>

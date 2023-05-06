@@ -25,12 +25,39 @@ class HomeController extends Controller
         ->orderby('brand_name','asc')->get();
 
         $products = DB::table('tbl_product')->where('product_status','1')->orderby('product_id','desc')
-        ->limit(4)->get();
+        ->limit(24)->get();
+        // $best_products = DB::table('tbl_product')
+        // ->join('tbl_order_details','tbl_order_details.product_id','=','tbl_product.product_id')
+        // ->select('tbl_product.product_id','tbl_product.product_name','tbl_product.product_price','tbl_product.product_image'
+        // ,DB::raw('SUM(tbl_order_details.product_sales_quantity) AS total_quantity'))
+        // ->where('tbl_product.product_status',1)->orderBy('total_quantity','DESC')->limit(6)
+        // ->groupBy('tbl_product.product_id','tbl_product.product_name','tbl_product.product_price','tbl_product.product_image')
+        // ->get();
+        $best_products = DB::table('tbl_product')
+        ->join('tbl_order_details','tbl_order_details.product_id','=','tbl_product.product_id')
+        ->select('tbl_product.product_id',DB::raw('SUM(tbl_order_details.product_sales_quantity) AS total_quantity'))
+        ->groupBy('tbl_product.product_id')
+        ->where('tbl_product.product_status',1)->orderBy('total_quantity','DESC')->limit(6)
+        ->get();
+        $temp_products = array();
+        foreach($best_products as $key => $value){
+            $temp = DB::table('tbl_product')->where('product_id',$value->product_id)
+            ->first();
+
+            $temp_products[$key] = array();
+            $temp_products[$key]['product_id'] = $temp->product_id;
+            $temp_products[$key]['product_name'] = $temp->product_name;
+            $temp_products[$key]['product_price'] = $temp->product_price;
+            $temp_products[$key]['product_image'] = $temp->product_image;
+            $temp_products[$key]['total_quantity'] = $value->total_quantity;
+        }
+
         $slides = DB::table('tbl_slide')->where('slide_status','1')->orderby('slide_id','desc')
         ->limit(3)->get();
         $url_canonical = $request->url();
         return view('pages.home')->with('cates',$cates)->with('brands',$brands)
-        ->with('products',$products)->with('slides',$slides)->with('url_canonical',$url_canonical);
+        ->with('products',$products)->with('slides',$slides)->with('best_products',$temp_products)
+        ->with('url_canonical',$url_canonical);
     }
 
     public function search_product(Request $request){
@@ -44,9 +71,39 @@ class HomeController extends Controller
         ->select('tbl_brand.brand_id','tbl_brand.brand_name', DB::raw('count(*) as product_count'))
         ->groupBy('tbl_brand.brand_id','tbl_brand.brand_name')
         ->orderby('brand_name','asc')->get();
+        $products;
+        if($request->search_price == 0){
+            $products = DB::table('tbl_product')
+            ->where('product_name','like','%'.$request->search_input.'%')
+            ->orderby('product_id','desc')->limit(21)->get();
+        }else if($request->search_price == 1){
+            $products = DB::table('tbl_product')
+            ->whereBetween('product_price',[0,5000000])
+            ->where('product_name','like','%'.$request->search_input.'%')
+            ->orderby('product_id','desc')->limit(21)->get();
+        }else if($request->search_price == 2){
+            $products = DB::table('tbl_product')
+            ->whereBetween('product_price',[5000000,10000000])
+            ->where('product_name','like','%'.$request->search_input.'%')
+            ->orderby('product_id','desc')->limit(21)->get();
+        }else if($request->search_price == 3){
+            $products = DB::table('tbl_product')
+            ->whereBetween('product_price',[10000000,20000000])
+            ->where('product_name','like','%'.$request->search_input.'%')
+            ->orderby('product_id','desc')->limit(21)->get();
+        }else if($request->search_price == 4){
+            $products = DB::table('tbl_product')
+            ->whereBetween('product_price',[20000000,30000000])
+            ->where('product_name','like','%'.$request->search_input.'%')
+            ->orderby('product_id','desc')->limit(21)->get();
+        }else if($request->search_price == 5){
+            $products = DB::table('tbl_product')
+            ->where('product_price','>',30000000)
+            ->where('product_name','like','%'.$request->search_input.'%')
+            ->orderby('product_id','desc')->limit(21)->get();
+        }
 
-        $products = DB::table('tbl_product')->where('product_name','like','%'.$request->search_input.'%')
-        ->orderby('product_id','desc')->limit(6)->get();
+
         $slides = DB::table('tbl_slide')->where('slide_status','1')->orderby('slide_id','desc')
         ->limit(3)->get();
         return view('pages.product.search')->with('cates',$cates)->with('brands',$brands)
@@ -65,5 +122,11 @@ class HomeController extends Controller
         });
 
         // return Redirect::to('/')->with('message','');
+    }
+
+    public function contact(){
+        $cates = DB::table('tbl_category_product')->orderby('category_name','desc')->get();
+        $brands = DB::table('tbl_brand')->orderby('brand_name','desc')->get();
+        return view('pages.contact.contact')->with('cates',$cates)->with('brands',$brands);;
     }
 }

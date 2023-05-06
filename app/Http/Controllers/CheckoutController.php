@@ -148,6 +148,7 @@ class CheckoutController extends Controller
             date_default_timezone_set('Asia/Ho_Chi_Minh');
             $tempOrder->created_at = now();
             $tempOrder->save();
+            Session::put('order_id',$tempOrder->order_id);
 
             foreach($cart as $key => $value){
                 $order_details = new OrderDetail();
@@ -186,8 +187,23 @@ class CheckoutController extends Controller
     }
 
     public function show_order(){
-        echo "Xem đơn hàng";
+        $cates = DB::table('tbl_category_product')->orderby('category_name','desc')->get();
+        $brands = DB::table('tbl_brand')->orderby('brand_name','desc')->get();
+        $customer_id = Session::get('customer_id');
+        if($customer_id){
+            $temp_order = Order::where('customer_id',$customer_id)
+            ->orderBy('order_id','DESC')->first();
+            $order =  DB::table('tbl_order')
+            ->join('tbl_customer','tbl_customer.customer_id','=','tbl_order.customer_id')
+            ->join('tbl_shipping','tbl_shipping.shipping_id','=','tbl_order.shipping_id')
+            ->join('tbl_order_details','tbl_order_details.order_id','=','tbl_order.order_id')
+            ->where('tbl_order.order_id',$temp_order->order_id)->get();
+            return view('pages.order.show_order')->with('order',$order)
+            ->with('cates',$cates)->with('brands',$brands);
+        }
+        return Redirect::to('/');
     }
+
     // backend
 
     public function all_order(){
@@ -216,6 +232,8 @@ class CheckoutController extends Controller
         // print_r($order);
         // echo '</pre>';
     }
+
+
     public function delete_order($order_id){
         $order = Order::find($order_id);
         $order->delete();

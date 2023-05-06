@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     {{-- Embed facebook --}}
-    <meta property="og:url"           content="{{$url_canonical}}" />
+    {{-- <meta property="og:url"           content="{{$url_canonical}}" /> --}}
     <meta property="og:type"          content="website" />
     <meta property="og:title"         content="Panda shop" />
     <meta property="og:description"   content="Smart phone for your smart life" />
@@ -167,8 +167,19 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
-								<?php
+                                <?php
+                                    $customer_id = Session::get('customer_id');
+                                    if($customer_id != null){
+                                ?>
+                                <li><a href="{{URL::to('/show-order')}}"><i class="fa fa-star"></i> Đơn hàng</a></li>
+                                <?php
+                                    }else{
+                                ?>
+                                <li><a href="{{URL::to('/')}}"><i class="fa fa-star"></i> Đơn hàng</a></li>
+                                <?php
+                                    }
+                                ?>
+                                <?php
                                     $customer_id = Session::get('customer_id');
                                     $shipping_id = Session::get('shipping_id');
                                     if($customer_id != null && $shipping_id ==null){
@@ -195,13 +206,10 @@
                                 <?php
                                     }else{
                                 ?>
-                                <li><a href="{{URL::to('/logout-customer')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
+                                <li><a href="{{URL::to('/logout-customer')}}"><i class="fa fa-user"></i> Đăng xuất</a></li>
                                 <?php
                                     }
                                 ?>
-
-
-
 							</ul>
 						</div>
 					</div>
@@ -212,8 +220,8 @@
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-8">
-						<div class="navbar-header">
+					<div class="col-sm-5">
+                        <div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
 								<span class="icon-bar"></span>
@@ -223,27 +231,39 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="{{URL::to('/trang-chu')}}" class="active">Trang chủ</a></li>
+								<li><a href="{{URL::to('/')}}" class="active">Trang chủ</a></li>
 								<li class="dropdown"><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Sản phẩm</a></li>
+                                        @foreach ($brands as $key => $brand)
+                                        <li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand->brand_id)}}">{{$brand->brand_name}}</a></li>
+                                        @endforeach
                                     </ul>
                                 </li>
-								<li class="dropdown"><a href="#">Tin tức<i class="fa fa-angle-down"></i></a>
-                                </li>
-								<li><a href="404.html">Giỏ hàng</a></li>
-								<li><a href="contact-us.html">Liên hệ</a></li>
+								<li><a href="{{URL::to('/lien-he')}}">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-7">
                         <form action="{{URL::to('/tim-kiem')}}" method="POST">
                             {{ csrf_field() }}
-                            <div class="search_box pull-right">
-                                <input type="text" name="search_input" placeholder="Search"/>
-                                <button type="submit" name="search_product" class="btn btn-primary" style="margin-top: 0px;" >Tìm kiếm</button>
+                            <div class="col-sm-3">
+                                <select name="search_price" style="margin-top: 4px">
+                                    <option value="0">Tất cả</option>
+                                    <option value="1">Dưới 5 triệu</option>
+                                    <option value="2">5-10 triệu</option>
+                                    <option value="3">10-20 triệu</option>
+                                    <option value="4">20-30 triệu</option>
+                                    <option value="5">Trên 30 triệu </option>
+                                </select>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="search_box">
+                                    <input type="text"name="search_input" class="flex-grow-1" placeholder="Search"/>
+                                    <button type="submit" name="search_product" class="btn btn-primary" style="margin-top: 0px" >Tìm kiếm</button>
+                                </div>
                             </div>
                         </form>
+
 					</div>
 				</div>
 			</div>
@@ -329,18 +349,6 @@
 							</div>
 
 						</div><!--/brands_products-->
-
-						{{-- <div class="price-range"><!--price-range-->
-							<h2>Price Range</h2>
-							<div class="well text-center">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
-							</div>
-						</div><!--/price-range--> --}}
-
-						{{-- <div class="shipping text-center"><!--shipping-->
-							<img src="{{('public/frontend/images/shipping.jpg')}}" alt="" />
-						</div><!--/shipping--> --}}
 					</div>
 				</div>
 

@@ -205,50 +205,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script> --}}
 <!-- morris JavaScript -->
 <script>
-    $.validate({
-
-    });
-</script>
-<script>
     CKEDITOR.replace( 'editor1' );
     CKEDITOR.replace( 'editor2' );
 </script>
-<script>
-    $( function() {
-      $( "#datepicker1" ).datepicker({
-        prevText: "Tháng trước",
-        nextText: "Tháng sau",
-        dateFormat: "yy-mm-dd",
-        dayNamesMin: ["Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ nhật" ],
-        duration: "slow"
-      });
-    } );
-    $( function() {
-        $( "#datepicker2" ).datepicker({
-        prevText: "Tháng trước",
-        nextText: "Tháng sau",
-        dateFormat: "yy-mm-dd",
-        dayNamesMin: ["Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ nhật" ],
-        duration: "slow"
-      });
-    } );
-    $(document).ready(function(){
-        $('#btn-dashboard-filter').click(function(){
-            var _token = $('input[name="_token"]').val();
-            var from_date = $('#datepicker1').val();
-            var to_date = $('#datepicker2').val();
-            $.ajax({
-                url: `{{url('/filter-by-date-ajax')}}`,
-                method: 'POST',
-                type: 'JSON',
-                data:{from_date:from_date,to_date:to_date,_token:_token},
-                success:function(data){
-                    chart.setData(data);
-                }
-            })
-        });
-    });
-</script>
+
 <script>
 	$(document).ready(function() {
 		//BOX BUTTON SHOW AND CLOSE
@@ -267,35 +227,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			return new Date(year, month - 1, day).getTime();
 		}
 
-		graphArea2 = Morris.Area({
+		chart = Morris.Area({
 			element: 'hero-area',
 			padding: 10,
-        behaveLikeLine: true,
-        gridEnabled: false,
-        gridLineColor: '#dddddd',
-        axes: true,
-        resize: true,
-        smooth:true,
-        pointSize: 0,
-        lineWidth: 0,
-        fillOpacity:0.85,
-			data: [
-				{period: '2015 Q1', iphone: 2668, ipad: null, itouch: 2649},
-				{period: '2015 Q2', iphone: 15780, ipad: 13799, itouch: 12051},
-				{period: '2015 Q3', iphone: 12920, ipad: 10975, itouch: 9910},
-				{period: '2015 Q4', iphone: 8770, ipad: 6600, itouch: 6695},
-				{period: '2016 Q1', iphone: 10820, ipad: 10924, itouch: 12300},
-				{period: '2016 Q2', iphone: 9680, ipad: 9010, itouch: 7891},
-				{period: '2016 Q3', iphone: 4830, ipad: 3805, itouch: 1598},
-				{period: '2016 Q4', iphone: 15083, ipad: 8977, itouch: 5185},
-				{period: '2017 Q1', iphone: 10697, ipad: 4470, itouch: 2038},
-
-			],
+            behaveLikeLine: true,
+            gridEnabled: false,
+            gridLineColor: '#dddddd',
+            axes: true,
+            resize: true,
+            smooth:true,
+            pointSize: 0,
+            lineWidth: 0,
+            fillOpacity:0.85,
 			lineColors:['#eb6f6f','#926383','#eb6f6f'],
 			xkey: 'period',
             redraw: true,
-            ykeys: ['iphone', 'ipad', 'itouch'],
-            labels: ['All Visitors', 'Returning Visitors', 'Unique Visitors'],
+            ykeys: ['sales', 'profit', 'quantity',''],
+            labels: ['Doanh số', 'Lợi nhuận', ''],
 			pointSize: 2,
 			hideHover: 'auto',
 			resize: true
@@ -304,6 +252,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 	});
 	</script>
+    <script>
+        $( function() {
+          $( "#datepicker1" ).datepicker({
+            prevText: "Tháng trước",
+            nextText: "Tháng sau",
+            dateFormat: "yy-mm-dd",
+            dayNamesMin: ["Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ nhật" ],
+            duration: "slow"
+          });
+        } );
+        $( function() {
+            $( "#datepicker2" ).datepicker({
+            prevText: "Tháng trước",
+            nextText: "Tháng sau",
+            dateFormat: "yy-mm-dd",
+            dayNamesMin: ["Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ nhật" ],
+            duration: "slow"
+          });
+        } );
+        $(document).ready(function(){
+            $('#btn-dashboard-filter').click(function(){
+                var _token = $('input[name="_token"]').val();
+                var from_date = $('#datepicker1').val();
+                var to_date = $('#datepicker2').val();
+                $.ajax({
+                    url: `{{url('/filter-by-date')}}`,
+                    method: 'POST',
+                    dataType: 'JSON',
+                    data:{from_date:from_date,to_date:to_date,_token:_token},
+                    success:function(data){
+                        chart.setData(data);
+                    }
+                })
+            });
+        });
+    </script>
 <!-- calendar -->
 	<script type="text/javascript" src="{{asset('public/backend/js/monthly.js')}}"></script>
 	<script type="text/javascript">

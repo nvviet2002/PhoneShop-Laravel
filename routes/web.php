@@ -34,6 +34,7 @@ use App\Http\Controllers\SlideController;
 Route::get('/',[HomeController::class, 'index']);
 Route::get('/trang-chu',[HomeController::class, 'index']);
 Route::post('/tim-kiem',[HomeController::class, 'search_product']);
+Route::get('/lien-he',[HomeController::class, 'contact']);
 //
 Route::get('/danh-muc-san-pham/{category_product_id}',[CategoryProduct::class, 'show_category_home']);
 Route::get('/thuong-hieu-san-pham/{brand_product_id}',[BrandProduct::class, 'show_brand_home']);
@@ -114,7 +115,6 @@ Route::get('/confirm-delivery-order/{order_id}',[CheckoutController::class, 'con
 Route::get('/confirm-finish-order/{order_id}',[CheckoutController::class, 'confirm_finish_order']);
 
 
-
 //coupon
 Route::get('/add-coupon',[CouponController::class, 'add_coupon']);
 Route::get('/delete-coupon/{coupon_id}',[CouponController::class, 'delete_coupon']);
@@ -132,7 +132,7 @@ Route::get('/unactive-slide/{slide_id}',[SlideController::class, 'unactive_slide
 Route::post('/save-slide',[SlideController::class, 'save_slide']);
 
 //dashboard
-Route::post('/filter-by-date-ajax',[AdminController::class, 'filter_by_date_ajax']);
+Route::post('/filter-by-date',[AdminController::class, 'filter_by_date']);
 
 
 

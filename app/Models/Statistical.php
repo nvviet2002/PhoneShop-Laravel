@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Statistical extends Model
 {
-    use HasFactory;
+    public $timestamps = false;
+    protected $fillable = [
+        'order_date','sales','profit','quantity','total_order'
+    ];
+    protected $primaryKey = 'id_statistical';
+    protected $table ='tbl_statistical';
 }

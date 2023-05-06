@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB as FacadesDB;
 use App\Rules\Captcha;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Statistical;
 //session_start();
 class AdminController extends Controller
 {
@@ -62,10 +63,30 @@ class AdminController extends Controller
         }
     }
 
-    public function filter_by_date_ajax(Request $request){
+    public function filter_by_date(Request $request){
         $data = $request->all();
-        $from_date = $data['from_date'];
-        $to_date = $data['to_date'];
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        // $statiticals = Statistical::whereBetween('order_date',[$from_date, $to_date])
+        // ->orderBy('order_date','ASC')->get();
+        $statiticals = DB::table('tbl_statistical')
+        ->whereDate('order_date','<=',$to_date)
+        ->whereDate('order_date','>=',$from_date)
+        ->orderBy('order_date','ASC')
+        ->get();
+        // $statiticals = Statistical::get();
+        $chart_data = array();
+        foreach($statiticals as $key => $value){
+            $chart_data[] = array(
+                'period' => $value->order_date,
+                'sales' => $value->sales,
+                'profit' => $value->profit,
+                'quantity' => $value->quantity,
+                'total' => $value->total_order
+            );
+        }
+        //return $statiticals[0];
+        return json_encode($chart_data);
     }
 
     public function logout(){

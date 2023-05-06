@@ -54,7 +54,7 @@
 </div>
 <div class="row">
     <div class="panel-body">
-        <form autocomplete="off">
+        <form autocomplete="off" method="POST">
             @csrf
             <div class="col-sm-2">
                 <p>Từ ngày</p><input type="text" class="form-control" id="datepicker1"></p>
@@ -64,9 +64,6 @@
                 <p>Đến ngày</p><input type="text" class="form-control" id="datepicker2"></p>
             </div>
         </form>
-        <div class="col-sm-12">
-            <div id="myfirstchart" style="height: 250px"></div>
-        </div>
     </div>
 </div>
 <!-- //market-->
