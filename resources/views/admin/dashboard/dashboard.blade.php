@@ -8,8 +8,8 @@
                 <i class="fa fa-eye"> </i>
             </div>
                 <div class="col-md-8 market-update-left">
-                <h4>Visitors</h4>
-            <h3>13,500</h3>
+                <h4>Truy cập</h4>
+            <h3>12,108</h3>
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -20,8 +20,8 @@
                 <i class="fa fa-users" ></i>
             </div>
             <div class="col-md-8 market-update-left">
-            <h4>Users</h4>
-                <h3>1,250</h3>
+            <h4>Người dùng</h4>
+                <h3>{{number_format($count_customer)}}</h3>
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -32,8 +32,8 @@
                 <i class="fa fa-usd"></i>
             </div>
             <div class="col-md-8 market-update-left">
-                <h4>Sales</h4>
-                <h3>1,500</h3>
+                <h4>Doanh số</h4>
+                <h3>{{number_format($sum_sale)}}</h3>
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -44,8 +44,8 @@
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
             </div>
             <div class="col-md-8 market-update-left">
-                <h4>Orders</h4>
-                <h3>1,500</h3>
+                <h4>Đơn hàng</h4>
+                <h3>{{number_format($count_order)}}</h3>
             </div>
             <div class="clearfix"> </div>
         </div>

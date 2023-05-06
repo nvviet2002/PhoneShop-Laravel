@@ -178,12 +178,14 @@ class CheckoutController extends Controller
     }
 
     public function show_checkout(){
+        $brands = DB::table('tbl_brand')->orderby('brand_name','desc')->get();
         if($_SESSION['cart'] == false){
             Session::put('message','Giỏ hàng trống không thể thanh toán');
             return redirect()->back();
         }
         $cities = City::orderby('matp','ASC')->get();
-        return view('pages.checkout.show_checkout')->with('cities',$cities);
+        return view('pages.checkout.show_checkout')->with('cities',$cities)
+        ->with('brands',$brands);
     }
 
     public function show_order(){

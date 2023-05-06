@@ -29,10 +29,15 @@ class AdminController extends Controller
 
     public function show_dashboard(){
         AdminController::AuthAdmin();
-        $orders = DB::table('tbl_order')->where('order_status',1)->get();
+        $orders = DB::table('tbl_order')->where('order_status',3)->get();
         $customers = DB::table('tbl_customer')->get();
-        return view('admin.dashboard.dashboard')->with('orders',$orders)
-        ->with('customers',$customers);
+
+        $sales = 0;
+        foreach($orders as $key => $value){
+            $sales += $value->order_total;
+        }
+        return view('admin.dashboard.dashboard')->with('count_order',$orders->count())
+        ->with('count_customer',$customers->count())->with('sum_sale',$sales);
     }
 
     public function dashboard(Request $request){

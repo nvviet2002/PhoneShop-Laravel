@@ -47,91 +47,53 @@
 
     <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            @for ( $i=0;$i<6;$i+3)
-                @if ($i == 0)
-                    <div class="item active">
-                @else
-                    <div class="item">
+            @foreach ($best_products as $key => $value )
+                @if($key == 0 || $key % 3 == 0)
+                    @if ($key == 0)
+                        <div class="item active">
+                    @else
+                        <div class="item">
+                    @endif
                 @endif
-
-                @for ( $j=$i;$j<$i+3;$j++)
                     <div class="col-sm-4">
                         <div class="product-image-wrapper">
                             <div class="single-products">
                                 <div class="productinfo text-center">
                                     <form>
                                         @csrf
-                                        <input type="hidden" value="{{$best_products[$j]['product_id']}}"
-                                        class="cart_product_id_{{$best_products[$j]['product_id']}}" >
-                                        <input type="hidden" value="{{$best_products[$j]['product_name']}}"
-                                        class="cart_product_name_{{$best_products[$j]['product_id']}}" >
-                                        <input type="hidden" value="{{$best_products[$j]['product_image']}}"
-                                        class="cart_product_image_{{$best_products[$j]['product_id']}}" >
-                                        <input type="hidden" value="{{$best_products[$j]['product_price']}}"
-                                        class="cart_product_price_{{$best_products[$j]['product_id']}}" >
+                                        <input type="hidden" value="{{$value['product_id']}}"
+                                        class="cart_product_id_{{$value['product_id']}}" >
+                                        <input type="hidden" value="{{$value['product_name']}}"
+                                        class="cart_product_name_{{$value['product_id']}}" >
+                                        <input type="hidden" value="{{$value['product_image']}}"
+                                        class="cart_product_image_{{$value['product_id']}}" >
+                                        <input type="hidden" value="{{$value['product_price']}}"
+                                        class="cart_product_price_{{$value['product_id']}}" >
                                         <input type="hidden" value="1"
-                                        class="cart_product_qty_{{$best_products[$j]['product_id']}}" >
-                                        <a href="{{URL::to('/chi-tiet-san-pham/'.$best_products[$j]['product_id'])}}">
-                                            <img src="{{URL::to('public/upload/product/'.$best_products[$j]['product_image'])}}" alt="" />
+                                        class="cart_product_qty_{{$value['product_id']}}" >
+                                        <a href="{{URL::to('/chi-tiet-san-pham/'.$value['product_id'])}}">
+                                            <img src="{{URL::to('public/upload/product/'.$value['product_image'])}}" alt="" />
                                         </a>
-                                        <h2>{{number_format($best_products[$j]['product_price']).' '.'VND'}}</h2>
-                                        <p>{{$best_products[$j]['product_name']}}</p>
-                                        <button type="button" data-id_product="{{$best_products[$j]['product_id']}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                                        <h2>{{number_format($value['product_price']).' '.'VND'}}</h2>
+                                        <p>{{$value['product_name']}}</p>
+                                        <button type="button" data-id_product="{{$value['product_id']}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                @endfor
-                </div>
-            @endfor
-            <div class="item active">
-                <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                        <div class="single-products">
-                            <div class="productinfo text-center">
-                                <img src="{{('public/frontend/images/recommend1.jpg')}}" alt="" />
-                                <h2>$56</h2>
-                                <p>Easy Polo Black Edition</p>
-                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                            </div>
 
-                        </div>
+                @if(($key+1) % 3 == 0)
                     </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                        <div class="single-products">
-                            <div class="productinfo text-center">
-                                <img src="{{('public/frontend/images/recommend1.jpg')}}" alt="" />
-                                <h2>$56</h2>
-                                <p>Easy Polo Black Edition</p>
-                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                        <div class="single-products">
-                            <div class="productinfo text-center">
-                                <img src="{{('public/frontend/images/recommend1.jpg')}}" alt="" />
-                                <h2>$56</h2>
-                                <p>Easy Polo Black Edition</p>
-                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-            <i class="fa fa-angle-left"></i>
-            </a>
-            <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-            <i class="fa fa-angle-right"></i>
-            </a>
+                @endif
+            @endforeach
+        </div>
+        <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+        <i class="fa fa-angle-left"></i>
+        </a>
+        <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+        <i class="fa fa-angle-right"></i>
+        </a>
     </div>
 </div><!--/recommended_items-->
 @endsection
