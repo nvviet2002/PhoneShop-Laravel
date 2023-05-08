@@ -36,8 +36,8 @@
                     @if ($_SESSION['cart'] == true)
                     @foreach ($_SESSION['cart'] as $key => $value)
                     <tr>
-                        <td class="cart_product">
-                            <a href="{{URL::to('/chi-tiet-san-pham/'.$value['id'])}}"><img src="{{URL::to('public/upload/product/'.$value['image'])}}" width="100" height="100" alt=""></a>
+                        <td class="cart_product" style="margin: 0px; margin-left: 6px">
+                            <a href="{{URL::to('/chi-tiet-san-pham/'.$value['id'])}}"><img style="max-height: 100px; max-width: 100px;" src="{{URL::to('public/upload/product/'.$value['image'])}}"  alt=""></a>
                         </td>
                         <td class="cart_description">
                             <h4><a href="{{URL::to('/chi-tiet-san-pham/'.$value['id'])}}">{{$value['name']}}</a></h4>

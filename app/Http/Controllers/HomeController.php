@@ -26,13 +26,14 @@ class HomeController extends Controller
 
         $products = DB::table('tbl_product')->where('product_status','1')->orderby('product_id','desc')
         ->limit(24)->get();
-        // $best_products = DB::table('tbl_product')
-        // ->join('tbl_order_details','tbl_order_details.product_id','=','tbl_product.product_id')
-        // ->select('tbl_product.product_id','tbl_product.product_name','tbl_product.product_price','tbl_product.product_image'
-        // ,DB::raw('SUM(tbl_order_details.product_sales_quantity) AS total_quantity'))
-        // ->where('tbl_product.product_status',1)->orderBy('total_quantity','DESC')->limit(6)
-        // ->groupBy('tbl_product.product_id','tbl_product.product_name','tbl_product.product_price','tbl_product.product_image')
-        // ->get();
+        $product_total_quantity = array();
+        foreach($products as $key => $value){
+            $temp = DB::table('tbl_order_details')
+            ->select(DB::raw('SUM(tbl_order_details.product_sales_quantity) AS total_quantity'))
+            ->where('tbl_order_details.product_id',$value->product_id)->first();
+            $product_total_quantity[] = $temp->total_quantity;
+        }
+
         $best_products = DB::table('tbl_product')
         ->join('tbl_order_details','tbl_order_details.product_id','=','tbl_product.product_id')
         ->select('tbl_product.product_id',DB::raw('SUM(tbl_order_details.product_sales_quantity) AS total_quantity'))
@@ -56,7 +57,9 @@ class HomeController extends Controller
         ->limit(3)->get();
         $url_canonical = $request->url();
         return view('pages.home')->with('cates',$cates)->with('brands',$brands)
-        ->with('products',$products)->with('slides',$slides)->with('best_products',$temp_products)
+        ->with('products',$products)->with('slides',$slides)
+        ->with('product_total_quantity',$product_total_quantity)
+        ->with('best_products',$temp_products)
         ->with('url_canonical',$url_canonical);
     }
 
@@ -102,12 +105,18 @@ class HomeController extends Controller
             ->where('product_name','like','%'.$request->search_input.'%')
             ->orderby('product_id','desc')->limit(21)->get();
         }
-
+        $product_total_quantity = array();
+        foreach($products as $key => $value){
+            $temp = DB::table('tbl_order_details')
+            ->select(DB::raw('SUM(tbl_order_details.product_sales_quantity) AS total_quantity'))
+            ->where('tbl_order_details.product_id',$value->product_id)->first();
+            $product_total_quantity[] = $temp->total_quantity;
+        }
 
         $slides = DB::table('tbl_slide')->where('slide_status','1')->orderby('slide_id','desc')
         ->limit(3)->get();
         return view('pages.product.search')->with('cates',$cates)->with('brands',$brands)
-        ->with('products',$products)->with('slides',$slides);
+        ->with('products',$products)->with('product_total_quantity',$product_total_quantity)->with('slides',$slides);
     }
 
     public function send_mail(){

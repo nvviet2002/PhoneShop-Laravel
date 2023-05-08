@@ -94,6 +94,13 @@ class CategoryProduct extends Controller
         $products = DB::table('tbl_product')
         ->join('tbl_category_product','tbl_product.category_id','=','tbl_category_product.category_id')
         ->where('tbl_product.category_id',$category_product_id)->orderby('product_id','desc')->get();
+        $product_total_quantity = array();
+        foreach($products as $key => $value){
+            $temp = DB::table('tbl_order_details')
+            ->select(DB::raw('SUM(tbl_order_details.product_sales_quantity) AS total_quantity'))
+            ->where('tbl_order_details.product_id',$value->product_id)->first();
+            $product_total_quantity[] = $temp->total_quantity;
+        }
         $slides = DB::table('tbl_slide')->where('slide_status','1')->orderby('slide_id','desc')
         ->limit(3)->get();
 
@@ -106,7 +113,9 @@ class CategoryProduct extends Controller
         }
         $url_canonical = $request->url();
         return view('pages.category.show_category_home')->with('cates',$cates)->with('brands',$brands)
-        ->with('products',$products)->with('category_name',$category_name)->with('slides',$slides)
+        ->with('products',$products)
+        ->with('product_total_quantity',$product_total_quantity)
+        ->with('category_name',$category_name)->with('slides',$slides)
         ->with('url_canonical',$url_canonical);
     }
 }

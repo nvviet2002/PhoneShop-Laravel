@@ -181,7 +181,7 @@ class CheckoutController extends Controller
         $brands = DB::table('tbl_brand')->orderby('brand_name','desc')->get();
         if($_SESSION['cart'] == false){
             Session::put('message','Giỏ hàng trống không thể thanh toán');
-            return redirect()->back();
+            return Redirect::to('/');
         }
         $cities = City::orderby('matp','ASC')->get();
         return view('pages.checkout.show_checkout')->with('cities',$cities)

@@ -160,6 +160,7 @@ class ProductController extends Controller
 
         return view('pages.product.show_details_product')->with('cates',$cates)
         ->with('brands',$brands)->with('detail_product',$detail_product)->with('slides',$slides)
-        ->with('related_pros',$related_products)->with('url_canonical',$request->url());
+        ->with('related_pros',$related_products)
+        ->with('url_canonical',$request->url());
     }
 }

@@ -113,6 +113,13 @@ class BrandProduct extends Controller
         $products = DB::table('tbl_product')
         ->join('tbl_brand','tbl_product.brand_id','=','tbl_brand.brand_id')
         ->where('tbl_product.brand_id',$brand_product_id)->orderby('product_id','desc')->get();
+        $product_total_quantity = array();
+        foreach($products as $key => $value){
+            $temp = DB::table('tbl_order_details')
+            ->select(DB::raw('SUM(tbl_order_details.product_sales_quantity) AS total_quantity'))
+            ->where('tbl_order_details.product_id',$value->product_id)->first();
+            $product_total_quantity[] = $temp->total_quantity;
+        }
         $slides = DB::table('tbl_slide')->where('slide_status','1')->orderby('slide_id','desc')
         ->limit(3)->get();
 
@@ -126,7 +133,13 @@ class BrandProduct extends Controller
         }
         Session::put('success','Hiển thị thành công');
         $url_canonical = $request->url();
-        return view('pages.brand.show_brand_home')->with('cates',$cates)->with('brands',$brands)
-        ->with('products',$products)->with('brand_name',$brand_name)->with('slides',$slides)->with('url_canonical',$url_canonical);
+        return view('pages.brand.show_brand_home')
+        ->with('cates',$cates)
+        ->with('brands',$brands)
+        ->with('products',$products)
+        ->with('product_total_quantity',$product_total_quantity)
+        ->with('brand_name',$brand_name)
+        ->with('slides',$slides)
+        ->with('url_canonical',$url_canonical);
     }
 }

@@ -140,29 +140,6 @@
 						<div class="logo pull-left">
 							<a href="{{URL::to('/')}}"><img src="{{URL::to('public/frontend/images/logo.png')}}" alt="" /></a>
 						</div>
-						{{-- <div class="btn-group pull-right">
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									USA
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canada</a></li>
-									<li><a href="#">UK</a></li>
-								</ul>
-							</div>
-
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									DOLLAR
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canadian Dollar</a></li>
-									<li><a href="#">Pound</a></li>
-								</ul>
-							</div>
-						</div> --}}
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
@@ -258,7 +235,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="search_box">
-                                    <input type="text"name="search_input" class="flex-grow-1" placeholder="Search"/>
+                                    <input type="text"name="search_input" class="flex-grow-1" placeholder="Nhập tên sản phẩm"/>
                                     <button type="submit" name="search_product" class="btn btn-primary" style="margin-top: 0px" >Tìm kiếm</button>
                                 </div>
                             </div>
@@ -286,7 +263,7 @@
 								@if ($slide == $slides[0])
 									<div class="item active">
 										<div class="col-sm-12">
-											<img src="{{URL::to('public/upload/slide/'.$slide->slide_image)}}" class="girl img-responsive" alt="" />
+											<img class="banner-size" src="{{URL::to('public/upload/slide/'.$slide->slide_image)}}" class="girl img-responsive" alt="" />
 										</div>
 									</div>
 								@else

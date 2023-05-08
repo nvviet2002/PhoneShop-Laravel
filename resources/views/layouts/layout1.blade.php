@@ -66,7 +66,18 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
+								<?php
+                                    $customer_id = Session::get('customer_id');
+                                    if($customer_id != null){
+                                ?>
+                                <li><a href="{{URL::to('/show-order')}}"><i class="fa fa-star"></i> Đơn hàng</a></li>
+                                <?php
+                                    }else{
+                                ?>
+                                <li><a href="{{URL::to('/')}}"><i class="fa fa-star"></i> Đơn hàng</a></li>
+                                <?php
+                                    }
+                                ?>
 								<?php
                                     $customer_id = Session::get('customer_id');
                                     $shipping_id = Session::get('shipping_id');
@@ -147,7 +158,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="search_box">
-                                    <input type="text"name="search_input" class="flex-grow-1" placeholder="Search"/>
+                                    <input type="text"name="search_input" class="flex-grow-1" placeholder="Nhập tên sản phẩm"/>
                                     <button type="submit" name="search_product" class="btn btn-primary" style="margin-top: 0px" >Tìm kiếm</button>
                                 </div>
                             </div>
