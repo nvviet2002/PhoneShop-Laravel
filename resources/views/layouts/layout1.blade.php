@@ -186,75 +186,75 @@
 				<div class="row">
 					<div class="col-sm-2">
 						<div class="companyinfo">
-							<h2><span>e</span>-shopper</h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
+							<h2><span>VMU</span>-shopper</h2>
+							<p>Mang đến cho bạn những trải nghiệm tốt nhất</p>
 						</div>
 					</div>
 					<div class="col-sm-7">
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
-								<a href="#">
+								<a href="https://www.youtube.com/watch?v=9nkD9YG1Tyo&t=5s" target="_blank">
 									<div class="iframe-img">
-										<img src="{{('public/frontend/images/iframe1.png')}}" alt="" />
+										<img src="{{URL::to('public/frontend/images/ip14.png')}}" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
 									</div>
 								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
+								<p>REVIEW IPHONE14</p>
+								<h2>24 MAR 2023</h2>
 							</div>
 						</div>
 
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
-								<a href="#">
+								<a href="https://www.youtube.com/watch?v=q7drNCpOLyc" target="_blank">
 									<div class="iframe-img">
-										<img src="{{('public/frontend/images/iframe1.png')}}" alt="" />
+										<img src="{{URL::to('public/frontend/images/sss23.png')}}" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
 									</div>
 								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
+								<p>Review Iphone 14</p>
+								<h2>4/5/2023</h2>
 							</div>
 						</div>
 
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
-								<a href="#">
+								<a href="https://www.youtube.com/watch?v=gf64B6Zz6AY"target="_blank">
 									<div class="iframe-img">
-										<img src="{{('public/frontend/images/iframe1.png')}}" alt="" />
+										<img src="{{URL::to('public/frontend/images/xrnote12.png')}}" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
 									</div>
 								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
+								<p>Review Xiaomi Redmi note 12</p>
+								<h2>15/4/2023</h2>
 							</div>
 						</div>
 
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
-								<a href="#">
+								<a href="https://www.youtube.com/watch?v=S-NZVy4CM-M&t=21s"target="_blank">
 									<div class="iframe-img">
-										<img src="{{('public/frontend/images/iframe1.png')}}" alt="" />
+										<img src="{{URL::to('public/frontend/images/oreno8.png')}}" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
 									</div>
 								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
+								<p>Review Oppo Reno 8</p>
+								<h2>11/2/2023</h2>
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-3">
 						<div class="address">
-							<img src="{{('public/frontend/images/iframe1.png')}}" alt="" />
-							<p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
+							<img src="images/home/map.png" alt="" />
+							<p>Địa chỉ: 484 Lạch Tray, Kênh Dương, Lê Chân, TP Hải Phòng.</p>
 						</div>
 					</div>
 				</div>
@@ -266,59 +266,58 @@
 				<div class="row">
 					<div class="col-sm-2">
 						<div class="single-widget">
-							<h2>Service</h2>
+							<h2>Dịch vụ</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Online Help</a></li>
-								<li><a href="#">Contact Us</a></li>
-								<li><a href="#">Order Status</a></li>
-								<li><a href="#">Change Location</a></li>
-								<li><a href="#">FAQ’s</a></li>
+								<li><a href="">Hỗ trợ trực tuyến</a></li>
+								<li><a href="">Liên hệ</a></li>
+								<li><a href="">Tình trạng đặt hàng</a></li>
+								<li><a href="">Thay đổi địa điểm</a></li>
+								<li><a href="">FAQ’s</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-2">
 						<div class="single-widget">
-							<h2>Quock Shop</h2>
+							<h2>Chọn nhanh</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">T-Shirt</a></li>
-								<li><a href="#">Mens</a></li>
-								<li><a href="#">Womens</a></li>
-								<li><a href="#">Gift Cards</a></li>
-								<li><a href="#">Shoes</a></li>
+								<li><a href="">Điện thoại</a></li>
+								<li><a href="">Máy tính bảng</a></li>
+								<li><a href="">Phụ kiện</a></li>
+								<li><a href="">Thẻ quà tặng</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-2">
 						<div class="single-widget">
-							<h2>Policies</h2>
+							<h2>Chính sách</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Terms of Use</a></li>
-								<li><a href="#">Privecy Policy</a></li>
-								<li><a href="#">Refund Policy</a></li>
-								<li><a href="#">Billing System</a></li>
-								<li><a href="#">Ticket System</a></li>
+								<li><a href="">Giao hàng & Thanh toán</a></li>
+								<li><a href="">Chính sách bảo hành</a></li>
+								<li><a href="">Chính sách đổi trả</a></li>
+								<li><a href="">Hóa đơn điện tử</a></li>
+								<li><a href="">Phiếu mua hàng</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-2">
 						<div class="single-widget">
-							<h2>About Shopper</h2>
+							<h2>Thông tin</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Company Information</a></li>
-								<li><a href="#">Careers</a></li>
-								<li><a href="#">Store Location</a></li>
-								<li><a href="#">Affillate Program</a></li>
-								<li><a href="#">Copyright</a></li>
+								<li><a href="">Giới thiệu công ty</a></li>
+								<li><a href="">Tuyển dụng</a></li>
+								<li><a href="">Địa chỉ cửa hàng</a></li>
+								<li><a href="">Chương trình liên kết</a></li>
+								<li><a href="">Copyright</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-3 col-sm-offset-1">
 						<div class="single-widget">
-							<h2>About Shopper</h2>
+							<h2>Đăng ký nhận thông báo</h2>
 							<form action="#" class="searchform">
-								<input type="text" placeholder="Your email address" />
+								<input type="text" placeholder="Email của bạn" />
 								<button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
-								<p>Get the most recent updates from <br />our site and be updated your self...</p>
+								<p>Nhận những thông tin mới nhất<br />về các sản phẩm của chúng tôi</p>
 							</form>
 						</div>
 					</div>
@@ -330,8 +329,7 @@
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
-					<p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
+					<p class="pull-left">Bản quyền thuộc về VMU-Shopper.</p>
 				</div>
 			</div>
 		</div>

@@ -1778,7 +1778,7 @@ h2.title {
 
 .update, .check_out {
   background: var(--main-color);
-  border-radius: 0;
+  border-radius: 4px;
   color: #FFFFFF;
   margin-top: 18px;
   border: none;
@@ -1789,7 +1789,17 @@ h2.title {
 }
 
 .check_out {
-  margin-left: 20px
+  margin-left: 40px;
+}
+.check-coupon{
+    background: var(--main-color);
+    border-radius: 4px;
+    color: #FFFFFF;
+    margin-top: 18px;
+    border: none;
+    padding: 5px 15px;
+    width: 100%;
+    margin: auto;
 }
 
 

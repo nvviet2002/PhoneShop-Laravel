@@ -31,7 +31,7 @@
                                     <td class="cart_product" style="margin-left: 4px">
                                         <a href="{{URL::to('/chi-tiet-san-pham/'.$value['id'])}}"><img src="{{URL::to('public/upload/product/'.$value['image'])}}" width="40" height="40"></a>
                                     </td>
-                                    <td class="cart_description" style="font-size: 1.4rem">
+                                    <td class="cart_description" style="font-size: 1rem">
                                         <h4><a href="{{URL::to('/chi-tiet-san-pham/'.$value['id'])}}">{{$value['name']}}</a></h4>
                                         <p>Mã: {{$value['id']}}</p>
                                     </td>

@@ -94,14 +94,14 @@
                                 <input type="text" class="form-control" disabled
                                 value="{{Session::get('coupon')['coupon_code']}}" name="coupon_code">
                             </div>
-                            <a class="btn btn-default check_out" href="{{URL::to('/clear-coupon')}}">
+                            <a class="btn btn-default check-coupon" href="{{URL::to('/clear-coupon')}}">
                                 Xóa mã
                             </a>
                         @else
                         <div class="form-group">
                             <input type="text" class="form-control" name="coupon_code">
                         </div>
-                        <button type="submit"  class="btn btn-default check_out" name="check_coupon">
+                        <button type="submit"  class="btn btn-default check-coupon" name="check_coupon">
                             Áp dụng mã giảm giá
                         </button>
                         @endif
