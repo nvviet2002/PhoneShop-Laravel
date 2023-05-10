@@ -135,7 +135,7 @@
                         <div class="product-image-wrapper">
                             <div class="single-products">
                                 <div class="productinfo text-center">
-                                    <img src="{{URL::to('public/upload/product/'.$value->product_image)}}" alt="" />
+                                    <img class="img-grow" src="{{URL::to('public/upload/product/'.$value->product_image)}}" alt="" />
                                     <h2>{{number_format($value->product_price).' VND'}}</h2>
                                     <p>{{$value->product_name}}</p>
                                     <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>

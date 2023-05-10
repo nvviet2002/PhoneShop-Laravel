@@ -9,10 +9,10 @@
             <div class="product-image-wrapper">
                 <div class="single-products">
                         <div class="productinfo text-center">
-                            <img class="img-size" src="{{URL::to('public/upload/product/'.$pro->product_image)}}" alt="" />
+                            <img class="img-size img-grow" src="{{URL::to('public/upload/product/'.$pro->product_image)}}" alt="" />
                             <h2>{{number_format($pro->product_price).' '.'VND'}}</h2>
                             <p>{{$pro->product_name}}</p>
-                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
                         </div>
                 </div>
                 <div class="choose">
@@ -33,5 +33,15 @@
 
 
 </div><!--features_items-->
-
+<div class="row">
+    <div class="col-sm-5 text-center">
+        <small class="text-muted inline m-t-sm m-b-sm">
+            Hiển thị {{($products->count()>=15)?15:$products->count()}}
+            /{{$products->count()}} sản phẩm
+        </small>
+    </div>
+    <div class="col-sm-7 text-right text-center-xs">
+        {{$products->links()}}
+    </div>
+</div>
 @endsection

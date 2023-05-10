@@ -41,7 +41,7 @@ class CartController extends Controller
             'image' => $product_info->product_image);
             break;
         }
-
+        Session::put('success','Bạn đã thêm thành công sản phẩm');
         return Redirect::to('/show-cart');
     }
 
@@ -62,10 +62,10 @@ class CartController extends Controller
                 }
             }
             Session::put('success','Cập nhật giỏ hàng thành công');
-            return redirect()->back()->with('message','Cập nhật giỏ hàng thành công');
+            return redirect()->back()->with('success','Cập nhật giỏ hàng thành công');
         }else{
             Session::put('error','Cập nhật giỏ hàng thất bại');
-            return redirect()->back()->with('message','Cập nhật giỏ hàng thất bại');
+            return redirect()->back()->with('error','Cập nhật giỏ hàng thất bại');
         }
     }
 
@@ -112,6 +112,7 @@ class CartController extends Controller
                 unset($_SESSION['cart'][$key]);
             }
         }
+        Session::put('success','Bạn đã xóa giỏ hàng');
         return Redirect::to('/show-cart');
     }
 

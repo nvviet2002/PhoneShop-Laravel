@@ -25,7 +25,7 @@ class HomeController extends Controller
         ->orderby('brand_name','asc')->get();
 
         $products = DB::table('tbl_product')->where('product_status','1')->orderby('product_id','desc')
-        ->limit(24)->get();
+        ->paginate(15);
         $product_total_quantity = array();
         foreach($products as $key => $value){
             $temp = DB::table('tbl_order_details')
@@ -78,32 +78,32 @@ class HomeController extends Controller
         if($request->search_price == 0){
             $products = DB::table('tbl_product')
             ->where('product_name','like','%'.$request->search_input.'%')
-            ->orderby('product_id','desc')->limit(21)->get();
+            ->orderby('product_id','desc')->paginate(15);
         }else if($request->search_price == 1){
             $products = DB::table('tbl_product')
             ->whereBetween('product_price',[0,5000000])
             ->where('product_name','like','%'.$request->search_input.'%')
-            ->orderby('product_id','desc')->limit(21)->get();
+            ->orderby('product_id','desc')->paginate(15);
         }else if($request->search_price == 2){
             $products = DB::table('tbl_product')
             ->whereBetween('product_price',[5000000,10000000])
             ->where('product_name','like','%'.$request->search_input.'%')
-            ->orderby('product_id','desc')->limit(21)->get();
+            ->orderby('product_id','desc')->paginate(15);
         }else if($request->search_price == 3){
             $products = DB::table('tbl_product')
             ->whereBetween('product_price',[10000000,20000000])
             ->where('product_name','like','%'.$request->search_input.'%')
-            ->orderby('product_id','desc')->limit(21)->get();
+            ->orderby('product_id','desc')->paginate(15);
         }else if($request->search_price == 4){
             $products = DB::table('tbl_product')
             ->whereBetween('product_price',[20000000,30000000])
             ->where('product_name','like','%'.$request->search_input.'%')
-            ->orderby('product_id','desc')->limit(21)->get();
+            ->orderby('product_id','desc')->paginate(15);
         }else if($request->search_price == 5){
             $products = DB::table('tbl_product')
             ->where('product_price','>',30000000)
             ->where('product_name','like','%'.$request->search_input.'%')
-            ->orderby('product_id','desc')->limit(21)->get();
+            ->orderby('product_id','desc')->paginate(15);
         }
         $product_total_quantity = array();
         foreach($products as $key => $value){
@@ -119,19 +119,19 @@ class HomeController extends Controller
         ->with('products',$products)->with('product_total_quantity',$product_total_quantity)->with('slides',$slides);
     }
 
-    public function send_mail(){
-        $to_name = 'Viet Nguyen';
-        $to_mail = 'nvvietunity3d@gmail.com';
+    // public function send_mail(){
+    //     $to_name = 'Viet Nguyen';
+    //     $to_mail = 'nvvietunity3d@gmail.com';
 
-        $data = array('name'=>'Mail từ tài khoản khách hàng','body'=>'đây là nội dung nè');
-        Mail::send('pages.send_mail', $data, function ($message) use ($to_mail,$to_name) {
-            $message->to($to_mail);
-            $message->from($to_mail, $to_name);
-            $message->subject('Test gửi mail');
-        });
+    //     $data = array('name'=>'Mail từ tài khoản khách hàng','body'=>'đây là nội dung nè');
+    //     Mail::send('pages.send_mail', $data, function ($message) use ($to_mail,$to_name) {
+    //         $message->to($to_mail);
+    //         $message->from($to_mail, $to_name);
+    //         $message->subject('Test gửi mail');
+    //     });
 
-        // return Redirect::to('/')->with('message','');
-    }
+    //     // return Redirect::to('/')->with('message','');
+    // }
 
     public function contact(){
         $cates = DB::table('tbl_category_product')->orderby('category_name','desc')->get();

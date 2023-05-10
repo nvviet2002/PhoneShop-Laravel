@@ -18,13 +18,13 @@ class CouponController extends Controller
     public function delete_coupon($coupon_id){
         AdminController::AuthAdmin();
         Coupon::find($coupon_id)->delete();
-        Session::put('message','Bạn đã xóa mã giảm giá thành công');
+        Session::put('success','Bạn đã xóa mã giảm giá thành công');
         return Redirect::to('/all-coupon');
     }
 
     public function all_coupon(){
         AdminController::AuthAdmin();
-        $coupons = Coupon::orderby('coupon_id','DESC')->get();
+        $coupons = Coupon::orderby('coupon_id','DESC')->paginate(20);
         return view('admin.coupon.all_coupon')->with('coupons',$coupons);
     }
 
@@ -39,14 +39,14 @@ class CouponController extends Controller
         $save_data->coupon_number = $data['coupon_number'];
         $save_data->coupon_code = $data['coupon_code'];
         $save_data->save();
-        Session::put('message','Bạn đã thêm mã giảm giá thành công');
+        Session::put('success','Bạn đã thêm mã giảm giá thành công');
         return Redirect::to('/add-coupon');
     }
 
     public function check_coupon(Request $request){
         $coupon = Coupon::where('coupon_code',$request->coupon_code)->first();
         if($coupon == false){
-            Session::put('message','Mã giảm giá không đúng');
+            Session::put('error','Mã giảm giá không đúng');
             return redirect()->back();
         }
         $temp_coupon = array(
@@ -58,11 +58,11 @@ class CouponController extends Controller
             'coupon_number' => $coupon->coupon_number,
         );
         if($temp_coupon['coupon_time'] <=0){
-            Session::put('message','Mã giảm giá đã hết hạn');
+            Session::put('error','Mã giảm giá đã hết hạn');
             return redirect()->back();
         }
         Session::put('coupon',$temp_coupon);
-        Session::put('message','Áp dụng mã giảm giá thành công');
+        Session::put('success','Áp dụng mã giảm giá thành công');
         Session::save();
         return redirect()->back();
     }
@@ -71,10 +71,10 @@ class CouponController extends Controller
         $coupon = Session::get('coupon');
         if($coupon){
             Session::forget('coupon');
-            Session::put('message','Xóa mã giảm giá thành công');
+            Session::put('success','Xóa mã giảm giá thành công');
             return redirect()->back();
         }
-        Session::put('message','Xóa mã giảm giá thất bại');
+        Session::put('error','Xóa mã giảm giá thất bại');
         return redirect()->back();
     }
 }

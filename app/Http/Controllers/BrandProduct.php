@@ -31,7 +31,7 @@ class BrandProduct extends Controller
         AdminController::AuthAdmin();
         // $all_brand_product =  DB::table('tbl_brand')->get();
         // $all_brand_product = Brand::all();
-        $all_brand_product = Brand::orderBy('brand_id','DESC')->take(10)->get();
+        $all_brand_product = Brand::orderBy('brand_id','DESC')->paginate(20);
         // $all_brand_product = Brand::orderBy('brand_id','DESC')->paginate(10);
         $manager_brand_product = view('admin.brand.all_brand_product')
         ->with('all_brand_product',$all_brand_product);
@@ -43,7 +43,7 @@ class BrandProduct extends Controller
         AdminController::AuthAdmin();
         DB::table('tbl_brand')->where('brand_id',$brand_product_id)
         ->update(['brand_status'=>1]);
-        Session::put('message','Bạn đã hiển thị thành công thương hiệu');
+        Session::put('success','Bạn đã hiển thị thành công thương hiệu');
         return Redirect::to('/all-brand-product');
     }
 
@@ -51,7 +51,7 @@ class BrandProduct extends Controller
         AdminController::AuthAdmin();
         DB::table('tbl_brand')->where('brand_id',$brand_product_id)
         ->update(['brand_status'=>0]);
-        Session::put('message','Bạn đã ẩn thành công thương hiệu');
+        Session::put('success','Bạn đã ẩn thành công thương hiệu');
         return Redirect::to('/all-brand-product');
     }
 
@@ -70,7 +70,7 @@ class BrandProduct extends Controller
         $save_data->brand_desc = $data['brand_product_desc'];
         $save_data->brand_status = $data['brand_product_status'];
         $save_data->save();
-        Session::put('message','Bạn đã thêm thương hiệu thành công');
+        Session::put('success','Bạn đã thêm thương hiệu thành công');
         return Redirect::to('/add-brand-product');
     }
 
@@ -87,14 +87,14 @@ class BrandProduct extends Controller
         $save_data->brand_name = $data['brand_product_name'];
         $save_data->brand_desc = $data['brand_product_desc'];
         $save_data->save();
-        Session::put('message','Bạn đã cập nhật thương hiệu thành công');
+        Session::put('success','Bạn đã cập nhật thương hiệu thành công');
         return Redirect::to('/all-brand-product');
     }
 
     public function delete_brand_product($brand_product_id){
         AdminController::AuthAdmin();
         DB::table('tbl_brand')->where('brand_id',$brand_product_id)->delete();
-        Session::put('message','Bạn đã xóa thương hiệu thành công');
+        Session::put('success','Bạn đã xóa thương hiệu thành công');
         return Redirect::to('/all-brand-product');
     }
 

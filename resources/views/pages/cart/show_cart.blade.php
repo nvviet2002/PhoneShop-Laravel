@@ -9,7 +9,7 @@
             </ol>
         </div>
         <div class="heading">
-            <h3 style="text-align: center">Thông tin giỏ hàng</h3>
+            <h3 style="text-align: center;font-size:24px">Thông tin giỏ hàng</h3>
         </div>
         <?php
             $msg = Session::get('message');
@@ -47,9 +47,9 @@
                             <p>{{number_format($value['price'])}}</p>
                         </td>
                         <td class="cart_quantity">
-                            <div class="cart_quantity_button">
+                            <div class="quantity">
                                 <input class="cart_quantity_input" type="number"
-                                min="1" name="quantity[{{$key}}]" value="{{$value['quantity']}}">
+                                min="1" max="20" step="1" name="quantity[{{$key}}]" value="{{$value['quantity']}}">
                             </div>
                         </td>
                         <td class="cart_total">
@@ -64,10 +64,15 @@
                 </tbody>
             </table>
             @if ($_SESSION['cart'] == true)
-            <button type="submit" class="btn btn-fefault cart">Cập nhập</button>
-            <a href="{{URL::to('/clear-cart')}}" class="btn btn-fefault cart">Xóa tất cả</a>
+                <div class="pull-right" style="margin: 1%">
+                    <button type="submit" class="btn btn-fefault cart">Cập nhập</button>
+                    <a href="{{URL::to('/clear-cart')}}" class="btn btn-fefault cart">Xóa tất cả</a>
+                </div>
             @else
-                <span class="alert">Giỏ hàng trống</span>
+            <div class="img-contain-empty">
+                <img class="img-empty-cart" src="{{URL::to('public/frontend/images/emptycart.png')}}">
+            </div>
+
             @endif
 
         </form>
@@ -112,7 +117,7 @@
             <div class="col-sm-8">
                 <div class="total_area">
                     <ul>
-                        <li>Tổng: <span>{{number_format($sum)}}</span></li>
+                        <li>Tổng: <span>{{number_format($sum)}} VND</span></li>
                             @if(Session::get('coupon')&& $_SESSION['cart'])
                                 @php
                                     $coupon = Session::get('coupon');
@@ -143,11 +148,11 @@
                         $customer_id = Session::get('customer_id');
                         if($customer_id == null){
                     ?>
-                    <a class="btn btn-default check_out" href="{{URL::to('/login-checkout')}}">Thanh toán</a>
+                    <a class="btn btn-default check_out pull-right" href="{{URL::to('/login-checkout')}}">Thanh toán</a>
                     <?php
                         }else{
                     ?>
-                    <a class="btn btn-default check_out" href="{{URL::to('/show-checkout')}}">Thanh toán</a>
+                    <a class="btn btn-default check_out pull-right" href="{{URL::to('/show-checkout')}}">Thanh toán</a>
                     <?php
                         }
                     ?>

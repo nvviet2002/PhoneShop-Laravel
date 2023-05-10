@@ -25,9 +25,47 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+    <script src="{{asset('public/frontend/js/main.js')}}"></script>
 </head><!--/head-->
 
 <body>
+    <div id="toast"></div>
+    @php
+        $success = Session::get('success');
+        $error = Session::get('error');
+        $info = Session::get('info');
+        if($success){
+            echo '<script>
+                    toast({
+                    title: "Thành công!",
+                    message: "'.$success.'",
+                    type: "success",
+                    duration: 5000
+                    });
+                </script>';
+            Session::put('success',null);
+        }elseif ($error) {
+            echo '<script>
+                    toast({
+                    title: "Thất bại!",
+                    message: "'.$error.'",
+                    type: "error",
+                    duration: 5000
+                    });
+                </script>';
+            Session::put('error',null);
+        }elseif ($info) {
+            echo '<script>
+                    toast({
+                    title: "Thông báo!",
+                    message: "'.$info.'",
+                    type: "info",
+                    duration: 5000
+                    });
+                </script>';
+            Session::put('info',null);
+        }
+    @endphp
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -59,8 +97,11 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a href="{{URL::to('/')}}"><img src="{{('public/frontend/images/logo.png')}}" alt="" /></a>
+						<div class=" pull-left">
+							<a href="{{URL::to('/')}}" class="logo-parent">
+                                <img class="logo" src="{{URL::to('public/frontend/images/logovmu.png')}}" alt="" />
+                                <span class="logo-title">VMU Shop</span>
+                            </a>
 						</div>
 					</div>
 					<div class="col-sm-8">
@@ -70,11 +111,11 @@
                                     $customer_id = Session::get('customer_id');
                                     if($customer_id != null){
                                 ?>
-                                <li><a href="{{URL::to('/show-order')}}"><i class="fa fa-star"></i> Đơn hàng</a></li>
+                                <li><a href="{{URL::to('/show-order')}}"><i class="fa fa-file"></i> Đơn hàng</a></li>
                                 <?php
                                     }else{
                                 ?>
-                                <li><a href="{{URL::to('/')}}"><i class="fa fa-star"></i> Đơn hàng</a></li>
+                                <li><a href="{{URL::to('/')}}"><i class="fa fa-file"></i> Đơn hàng</a></li>
                                 <?php
                                     }
                                 ?>
@@ -83,15 +124,15 @@
                                     $shipping_id = Session::get('shipping_id');
                                     if($customer_id != null && $shipping_id ==null){
                                 ?>
-                                <li><a href="{{URL::to('/show-checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                <li><a href="{{URL::to('/show-checkout')}}"><i class="fa fa-credit-card"></i> Thanh toán</a></li>
                                 <?php
                                     }else if($customer_id != null && $shipping_id != null){
                                 ?>
-                                <li><a href="{{URL::to('/payment')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                <li><a href="{{URL::to('/payment')}}"><i class="fa fa-credit-card"></i> Thanh toán</a></li>
                                 <?php
                                     }else{
                                 ?>
-                                <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-credit-card"></i> Thanh toán</a></li>
                                 <?php
                                     }
                                 ?>
@@ -343,7 +384,7 @@
 	<script src="{{asset('public/frontend/js/jquery.scrollUp.min.js')}}"></script>
 	<script src="{{asset('public/frontend/js/price-range.js')}}"></script>
     <script src="{{asset('public/frontend/js/jquery.prettyPhoto.js')}}"></script>
-    <script src="{{asset('public/frontend/js/main.js')}}"></script>
+
     <script src="{{asset('public/frontend/js/sweetalert.js')}}"></script>
     {{-- <script type="text/javascript">
         $(document).ready(function(){
@@ -432,6 +473,40 @@
                 });
 
             })
+        });
+    </script>
+    <script>
+        jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+        jQuery('.quantity').each(function() {
+        var spinner = jQuery(this),
+            input = spinner.find('input[type="number"]'),
+            btnUp = spinner.find('.quantity-up'),
+            btnDown = spinner.find('.quantity-down'),
+            min = input.attr('min'),
+            max = input.attr('max');
+
+        btnUp.click(function() {
+            var oldValue = parseFloat(input.val());
+            if (oldValue >= max) {
+            var newVal = oldValue;
+            } else {
+            var newVal = oldValue + 1;
+            }
+            spinner.find("input").val(newVal);
+            spinner.find("input").trigger("change");
+        });
+
+        btnDown.click(function() {
+            var oldValue = parseFloat(input.val());
+            if (oldValue <= min) {
+            var newVal = oldValue;
+            } else {
+            var newVal = oldValue - 1;
+            }
+            spinner.find("input").val(newVal);
+            spinner.find("input").trigger("change");
+        });
+
         });
     </script>
 </body>

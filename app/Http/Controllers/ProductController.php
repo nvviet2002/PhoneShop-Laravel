@@ -34,7 +34,7 @@ class ProductController extends Controller
         $all_product =  DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
         ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
-        ->orderby('tbl_product.product_id','desc')->get();
+        ->orderby('tbl_product.product_id','desc')->paginate(20);
         $manager_product = view('admin.product.all_product')
         ->with('all_product',$all_product);
         //return view('admin_layout')->with('admin.all_product',$manager_product);
@@ -45,7 +45,7 @@ class ProductController extends Controller
         AdminController::AuthAdmin();
         DB::table('tbl_product')->where('product_id',$product_id)
         ->update(['product_status'=>1]);
-        Session::put('message','Bạn đã hiển thị thành công sản phẩm');
+        Session::put('success','Bạn đã hiển thị thành công sản phẩm');
         return Redirect::to('/all-product');
     }
 
@@ -53,7 +53,7 @@ class ProductController extends Controller
         AdminController::AuthAdmin();
         DB::table('tbl_product')->where('product_id',$product_id)
         ->update(['product_status'=>0]);
-        Session::put('message','Bạn đã ẩn thành công sản phẩm');
+        Session::put('success','Bạn đã ẩn thành công sản phẩm');
         return Redirect::to('/all-product');
     }
 
@@ -87,12 +87,12 @@ class ProductController extends Controller
             $get_img->move('public/upload/product',$new_img);
             $data['product_image'] = $new_img;
             DB::table('tbl_product')->insert($data);
-            Session::put('message','Bạn đã thêm sản phẩm thành công');
+            Session::put('success','Bạn đã thêm sản phẩm thành công');
             return Redirect::to('/add-product');
         }
         $data['product_image'] = "";
         DB::table('tbl_product')->insert($data);
-        Session::put('message','Bạn đã thêm sản phẩm thành công');
+        Session::put('success','Bạn đã thêm sản phẩm thành công');
         return Redirect::to('/add-product');
     }
 
@@ -114,19 +114,31 @@ class ProductController extends Controller
             $get_img->move('public/upload/product',$new_img);
             $data['product_image'] = $new_img;
             DB::table('tbl_product')->where('product_id',$product_id)->update($data);
-            Session::put('message','Bạn đã cập nhật sản phẩm thành công');
+            Session::put('success','Bạn đã cập nhật sản phẩm thành công');
             return Redirect::to('/all-product');
         }
         DB::table('tbl_product')->where('product_id',$product_id)->update($data);
-        Session::put('message','Bạn đã cập nhật sản phẩm thành công');
+        Session::put('success','Bạn đã cập nhật sản phẩm thành công');
         return Redirect::to('/all-product');
     }
 
     public function delete_product($product_id){
         AdminController::AuthAdmin();
         DB::table('tbl_product')->where('product_id',$product_id)->delete();
-        Session::put('message','Bạn đã xóa sản phẩm thành công');
+        Session::put('success','Bạn đã xóa sản phẩm thành công');
         return Redirect::to('/all-product');
+    }
+
+    public function search_product(Request $request){
+        AdminController::AuthAdmin();
+        $all_product =  DB::table('tbl_product')
+        ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
+        ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
+        ->where('tbl_product.product_name','like','%'.$request->search_product_input.'%')
+        ->orderby('tbl_product.product_id','desc')->paginate(20);
+        $manager_product = view('admin.product.all_product')
+        ->with('all_product',$all_product);
+        return $manager_product;
     }
 
     //front end

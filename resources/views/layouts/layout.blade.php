@@ -30,59 +30,15 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+    <script src="{{asset('public/frontend/js/main.js')}}"></script>
 </head><!--/head-->
 
 <body>
-    <script>
-        function toast({ title = "", message = "", type = "info", duration = 3000 }) {
-            const main = document.getElementById("toast");
-            if (main) {
-            const toast = document.createElement("div");
-
-            // Auto remove toast
-            const autoRemoveId = setTimeout(function () {
-                main.removeChild(toast);
-            }, duration + 1000);
-
-            // Remove toast when clicked
-            toast.onclick = function (e) {
-                if (e.target.closest(".toast__close")) {
-                main.removeChild(toast);
-                clearTimeout(autoRemoveId);
-                }
-            };
-
-            const icons = {
-                success: "fas fa-check-circle",
-                info: "fas fa-info-circle",
-                warning: "fas fa-exclamation-circle",
-                error: "fas fa-exclamation-circle"
-            };
-            const icon = icons[type];
-            const delay = (duration / 1000).toFixed(2);
-
-            toast.classList.add("toast", `toast--${type}`);
-            toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
-
-            toast.innerHTML = `
-                            <div class="toast__icon">
-                                <i class="${icon}"></i>
-                            </div>
-                            <div class="toast__body">
-                                <h3 class="toast__title">${title}</h3>
-                                <p class="toast__msg">${message}</p>
-                            </div>
-                            <div class="toast__close">
-                                <i class="fas fa-times"></i>
-                            </div>
-                        `;
-            main.appendChild(toast);
-            }
-        }
-    </script>
+    <div id="toast"></div>
     @php
         $success = Session::get('success');
         $error = Session::get('error');
+        $info = Session::get('info');
         if($success){
             echo '<script>
                     toast({
@@ -103,9 +59,19 @@
                     });
                 </script>';
             Session::put('error',null);
+        }elseif ($info) {
+            echo '<script>
+                    toast({
+                    title: "Thông báo!",
+                    message: "'.$info.'",
+                    type: "info",
+                    duration: 5000
+                    });
+                </script>';
+            Session::put('info',null);
         }
     @endphp
-    <div id="toast"></div>
+
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -121,7 +87,7 @@
 					<div class="col-sm-6">
 						<div class="social-icons pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="https://www.thegioididong.com/"><i class="fa fa-facebook"></i></a></li>
 								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
 								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
 								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
@@ -137,22 +103,25 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a href="{{URL::to('/')}}"><img src="{{URL::to('public/frontend/images/logo.png')}}" alt="" /></a>
+						<div class=" pull-left">
+							<a href="{{URL::to('/')}}" class="logo-parent">
+                                <img class="logo" src="{{URL::to('public/frontend/images/logovmu.png')}}" alt="" />
+                                <span class="logo-title">VMU Shop</span>
+                            </a>
 						</div>
 					</div>
-					<div class="col-sm-8">
+					<div class="col-sm-8" style="margin-top: 20px">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
                                 <?php
                                     $customer_id = Session::get('customer_id');
                                     if($customer_id != null){
                                 ?>
-                                <li><a href="{{URL::to('/show-order')}}"><i class="fa fa-star"></i> Đơn hàng</a></li>
+                                <li><a href="{{URL::to('/show-order')}}"><i class="fa fa-file"></i> Đơn hàng</a></li>
                                 <?php
                                     }else{
                                 ?>
-                                <li><a href="{{URL::to('/')}}"><i class="fa fa-star"></i> Đơn hàng</a></li>
+                                <li><a href="{{URL::to('/')}}"><i class="fa fa-file"></i> Đơn hàng</a></li>
                                 <?php
                                     }
                                 ?>
@@ -161,15 +130,15 @@
                                     $shipping_id = Session::get('shipping_id');
                                     if($customer_id != null && $shipping_id ==null){
                                 ?>
-                                <li><a href="{{URL::to('/show-checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                <li><a href="{{URL::to('/show-checkout')}}"><i class="fa fa-credit-card"></i> Thanh toán</a></li>
                                 <?php
                                     }else if($customer_id != null && $shipping_id != null){
                                 ?>
-                                <li><a href="{{URL::to('/payment')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                <li><a href="{{URL::to('/payment')}}"><i class="fa fa-credit-card"></i> Thanh toán</a></li>
                                 <?php
                                     }else{
                                 ?>
-                                <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-credit-card"></i> Thanh toán</a></li>
                                 <?php
                                     }
                                 ?>
@@ -357,7 +326,7 @@
 										<i class="fa fa-play-circle-o"></i>
 									</div>
 								</a>
-								<p>REVIEW IPHONE14</p>
+								<p>Review Iphone 14</p>
 								<h2>24 MAR 2023</h2>
 							</div>
 						</div>
@@ -372,7 +341,7 @@
 										<i class="fa fa-play-circle-o"></i>
 									</div>
 								</a>
-								<p>Review Iphone 14</p>
+								<p>Review Samsung S23</p>
 								<h2>4/5/2023</h2>
 							</div>
 						</div>
@@ -499,8 +468,8 @@
 	<script src="{{asset('public/frontend/js/bootstrap.min.js')}}"></script>
 	<script src="{{asset('public/frontend/js/jquery.scrollUp.min.js')}}"></script>
 	<script src="{{asset('public/frontend/js/price-range.js')}}"></script>
-    <script src="{{asset('public/frontend/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('public/frontend/js/main.js')}}"></script>
+    <script src="{{asset('public/frontend/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('public/frontend/js/sweetalert.js')}}"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script type="text/javascript">

@@ -104,7 +104,7 @@ class CheckoutController extends Controller
             foreach($_SESSION['cart'] as $key => $value){
                 unset($_SESSION['cart'][$key]);
             }
-            Session::put('message','Bạn đã xóa giỏ hàng thành công');
+            Session::put('success','Bạn đã xóa giỏ hàng thành công');
         }
         return Redirect::to('/payment');
     }
@@ -180,7 +180,7 @@ class CheckoutController extends Controller
     public function show_checkout(){
         $brands = DB::table('tbl_brand')->orderby('brand_name','desc')->get();
         if($_SESSION['cart'] == false){
-            Session::put('message','Giỏ hàng trống không thể thanh toán');
+            Session::put('error','Giỏ hàng trống không thể thanh toán');
             return Redirect::to('/');
         }
         $cities = City::orderby('matp','ASC')->get();
@@ -213,7 +213,7 @@ class CheckoutController extends Controller
         $all_order =  DB::table('tbl_order')
         ->join('tbl_customer','tbl_customer.customer_id','=','tbl_order.customer_id')
         ->select('tbl_order.*','tbl_customer.customer_name')->orderby('order_id','desc')
-        ->get();
+        ->paginate(20);
         $manager_order = view('admin.order.all_order')->with('all_order',$all_order);
         // return view('admin_layout')->with('admin.all_category_product',$manager_category_product);
         return $manager_order;
@@ -237,39 +237,45 @@ class CheckoutController extends Controller
 
 
     public function delete_order($order_id){
+        AdminController::AuthAdmin();
         $order = Order::find($order_id);
         $order->delete();
+        Session::put('success','Xóa đơn hàng thành công');
         return redirect()->back();
     }
 
     public function confirm_order($order_id){
+        AdminController::AuthAdmin();
         $order = Order::find($order_id);
         $order->order_status = 1;
         $order->save();
+        Session::put('success','Xác nhận đơn hàng thành công');
         return redirect()->back();
     }
     public function cancel_order($order_id){
+        AdminController::AuthAdmin();
         $order = Order::find($order_id);
         $order->order_status = -1;
         $order->save();
+        Session::put('success','Đơn hàng đã được hủy');
         return redirect()->back();
     }
     public function confirm_delivery_order($order_id){
+        AdminController::AuthAdmin();
         $order = Order::find($order_id);
         $order->order_status = 2;
         $order->save();
+        Session::put('success','Đơn hàng đã được xác nhận');
         return redirect()->back();
     }
     public function confirm_finish_order($order_id){
+        AdminController::AuthAdmin();
         $order = Order::find($order_id);
         $order->order_status = 3;
         $order->save();
+        Session::put('success','Bạn đã hoàn thành đơn hàng');
         return redirect()->back();
     }
-
-
-
-
 
     public function select_delivery(Request $request){
         $data = $request->all();

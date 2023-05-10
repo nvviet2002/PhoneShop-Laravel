@@ -104,6 +104,7 @@ Route::get('/unactive-product/{product_id}',[ProductController::class, 'unactive
 
 Route::post('/update-product/d{product_id}',[ProuctController::class, 'update_product']);
 Route::post('/save-product',[ProductController::class, 'save_product']);
+Route::post('/search-product',[ProductController::class, 'search_product']);
 
 //order
 Route::get('/all-order',[CheckoutController::class, 'all_order']);

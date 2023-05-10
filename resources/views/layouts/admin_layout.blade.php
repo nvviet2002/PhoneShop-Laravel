@@ -29,16 +29,54 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/ckeditor/ckeditor.js')}}"></script>
 <script src="{{asset('public/backend/js/form-validation.js')}}"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="{{asset('public/backend/js/scripts.js')}}"></script>
 {{-- <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/decoupled-document/ckeditor.js"></script> --}}
 </head>
 <body>
+    <div id="toast"></div>
+    @php
+        $success = Session::get('success');
+        $error = Session::get('error');
+        $info = Session::get('info');
+        if(isset($success)){
+            echo '<script>
+                    toast({
+                    title: "Thành công!",
+                    message: "'.$success.'",
+                    type: "success",
+                    duration: 5000
+                    });
+                </script>';
+            Session::put('success',null);
+        }elseif ($error) {
+            echo '<script>
+                    toast({
+                    title: "Thất bại!",
+                    message: "'.$error.'",
+                    type: "error",
+                    duration: 5000
+                    });
+                </script>';
+            Session::put('error',null);
+        }elseif ($info) {
+            echo '<script>
+                    toast({
+                    title: "Thông báo!",
+                    message: "'.$info.'",
+                    type: "info",
+                    duration: 5000
+                    });
+                </script>';
+            Session::put('info',null);
+        }
+    @endphp
 <section id="container">
 <!--header start-->
 <header class="header fixed-top clearfix">
 <!--logo start-->
 <div class="brand">
-    <a href="index.html" class="logo">
-        ADMIN
+    <a href="{{URL::to('/dashboard')}}" class="logo">
+        Quản trị
     </a>
     <div class="sidebar-toggle-box">
         <div class="fa fa-bars"></div>
@@ -58,7 +96,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <!-- user login dropdown start-->
         <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                <img alt="" src="{{asset('public/backend/images/2.png')}}">
+                <img alt="" src="{{asset('public/backend/images/admin.png')}}">
                 <span class="username">
 					<?php
 						$name = Session::get('admin_name');
@@ -176,10 +214,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </section>
 <script src="{{asset('public/backend/js/bootstrap.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.dcjqaccordion.2.7.js')}}"></script>
-<script src="{{asset('public/backend/js/scripts.js')}}"></script>
+
 <script src="{{asset('public/backend/js/jquery.slimscroll.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.nicescroll.js')}}"></script>
-<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="{{asset('public/backend/js/jquery.scrollTo.js')}}"></script>
 {{-- <script>
      DecoupledEditor

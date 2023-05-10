@@ -27,7 +27,7 @@ class CategoryProduct extends Controller
 
     public function all_category_product(){
         AdminController::AuthAdmin();
-        $all_category_product =  DB::table('tbl_category_product')->get();
+        $all_category_product =  DB::table('tbl_category_product')->paginate(20);
         $manager_category_product = view('admin.category.all_category_product')
         ->with('all_category_product',$all_category_product);
         //return view('admin_layout')->with('admin.all_category_product',$manager_category_product);
@@ -38,7 +38,7 @@ class CategoryProduct extends Controller
         AdminController::AuthAdmin();
         DB::table('tbl_category_product')->where('category_id',$category_product_id)
         ->update(['category_status'=>1]);
-        Session::put('message','Bạn đã hiển thị thành công sản phẩm');
+        Session::put('success','Bạn đã hiển thị thành công sản phẩm');
         return Redirect::to('/all-category-product');
     }
 
@@ -46,7 +46,7 @@ class CategoryProduct extends Controller
         AdminController::AuthAdmin();
         DB::table('tbl_category_product')->where('category_id',$category_product_id)
         ->update(['category_status'=>0]);
-        Session::put('message','Bạn đã ẩn thành công sản phẩm');
+        Session::put('success','Bạn đã ẩn thành công sản phẩm');
         return Redirect::to('/all-category-product');
     }
 
@@ -57,7 +57,7 @@ class CategoryProduct extends Controller
         $data['category_desc'] = $request->category_product_desc;
         $data['category_status'] = $request->category_product_status;
         DB::table('tbl_category_product')->insert($data);
-        Session::put('message','Bạn đã thêm danh mục thành công');
+        Session::put('success','Bạn đã thêm danh mục thành công');
         return Redirect::to('/add-category-product');
     }
 
@@ -67,14 +67,14 @@ class CategoryProduct extends Controller
         $data['category_name'] = $request->category_product_name;
         $data['category_desc'] = $request->category_product_desc;
         DB::table('tbl_category_product')->where('category_id',$category_product_id)->update($data);
-        Session::put('message','Bạn đã cập nhật danh mục thành công');
+        Session::put('success','Bạn đã cập nhật danh mục thành công');
         return Redirect::to('/all-category-product');
     }
 
     public function delete_category_product($category_product_id){
         AdminController::AuthAdmin();
         DB::table('tbl_category_product')->where('category_id',$category_product_id)->delete();
-        Session::put('message','Bạn đã xóa danh mục thành công');
+        Session::put('success','Bạn đã xóa danh mục thành công');
         return Redirect::to('/all-category-product');
     }
 

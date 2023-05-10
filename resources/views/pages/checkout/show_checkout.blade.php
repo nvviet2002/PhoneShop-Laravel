@@ -29,7 +29,9 @@
                                 @foreach ($_SESSION['cart'] as $key => $value)
                                 <tr>
                                     <td class="cart_product" style="margin-left: 4px">
-                                        <a href="{{URL::to('/chi-tiet-san-pham/'.$value['id'])}}"><img src="{{URL::to('public/upload/product/'.$value['image'])}}" width="40" height="40"></a>
+                                        <a href="{{URL::to('/chi-tiet-san-pham/'.$value['id'])}}">
+                                            <img src="{{URL::to('public/upload/product/'.$value['image'])}}" width="40" height="40">
+                                        </a>
                                     </td>
                                     <td class="cart_description" style="font-size: 1rem">
                                         <h4><a href="{{URL::to('/chi-tiet-san-pham/'.$value['id'])}}">{{$value['name']}}</a></h4>
@@ -39,9 +41,9 @@
                                         <p>{{number_format($value['price'])}}</p>
                                     </td>
                                     <td class="cart_quantity">
-                                        <div class="cart_quantity_button">
-                                                <input class="cart_quantity_input" type="number" style="width: 100px"
-                                                min="1" name="quantity[{{$key}}]" value="{{$value['quantity']}}">
+                                        <div class="quantity">
+                                            <input class="cart_quantity_input" type="number"
+                                            min="1" max="20" step="1" name="quantity[{{$key}}]" value="{{$value['quantity']}}">
                                         </div>
                                     </td>
                                     <td class="cart_total">
@@ -56,10 +58,14 @@
                             </tbody>
                         </table>
                     @if ($_SESSION['cart'] == true)
-                    <button type="submit" class="btn btn-fefault cart">Cập nhập</button>
-                    <a href="{{URL::to('/clear-cart')}}" class="btn btn-fefault cart">Xóa tất cả</a>
+                    <div class="pull-right" style="margin: 1%">
+                        <button type="submit" class="btn btn-fefault cart">Cập nhập</button>
+                        <a href="{{URL::to('/clear-cart')}}" class="btn btn-fefault cart">Xóa tất cả</a>
+                    </div>
                     @else
-                        <span class="alert">Giỏ hàng trống</span>
+                        <div class="img-contain-empty">
+                            <img class="img-empty-cart" src="{{URL::to('public/frontend/images/emptycart.png')}}">
+                        </div>
                     @endif
                     </div>
                 </form>
@@ -71,7 +77,7 @@
                         }
                         $total_coupon = $sum;
                     @endphp
-                    <ul style="padding: 0px">
+                    <ul style="padding-top: 40px;padding-left: 0px;">
                         <li>Tổng: <span>{{number_format($sum)}}</span></li>
                             @if(Session::get('coupon')&& $_SESSION['cart'])
                                 @php

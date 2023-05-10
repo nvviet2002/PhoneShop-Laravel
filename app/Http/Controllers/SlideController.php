@@ -20,7 +20,7 @@ class SlideController extends Controller
         AdminController::AuthAdmin();
         $slide = Slide::find($slide_id);
         $slide->delete();
-        Session::put('message','Bạn đã xóa slide thành công');
+        Session::put('success','Bạn đã xóa slide thành công');
         return Redirect::to('/all-slide');
     }
 
@@ -29,7 +29,7 @@ class SlideController extends Controller
         $slide = Slide::find($slide_id);
         $slide->slide_status = 1;
         $slide->save();
-        Session::put('message','Bạn đã hiển thị thành công slide');
+        Session::put('success','Bạn đã hiển thị thành công slide');
         return Redirect::to('/all-slide');
     }
 
@@ -38,13 +38,13 @@ class SlideController extends Controller
         $slide = Slide::find($slide_id);
         $slide->slide_status = 0;
         $slide->save();
-        Session::put('message','Bạn đã ẩn thành công slide');
+        Session::put('success','Bạn đã ẩn thành công slide');
         return Redirect::to('/all-slide');
     }
 
     public function all_slide(){
         AdminController::AuthAdmin();
-        $slides = Slide::orderby('slide_id','DESC')->get();
+        $slides = Slide::orderby('slide_id','DESC')->paginate(20);
         return view('admin.slide.all_slide')->with('slides',$slides);
     }
 
@@ -63,12 +63,12 @@ class SlideController extends Controller
             $get_img->move('public/upload/slide',$new_img);
             $slide->slide_image = $new_img;
             $slide->save();
-            Session::put('message','Bạn đã thêm slide thành công');
+            Session::put('success','Bạn đã thêm slide thành công');
             return Redirect::to('/add-slide');
         }
         $slide->slide_image = "";
         $slide->save();
-        Session::put('message','Bạn đã thêm slide thành công');
+        Session::put('success','Bạn đã thêm slide thành công');
         return Redirect::to('/add-slide');
     }
 

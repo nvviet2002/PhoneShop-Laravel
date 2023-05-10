@@ -21,8 +21,9 @@
                             <input type="hidden" value="1"
                             class="cart_product_qty_{{$pro->product_id}}" >
                             <a href="{{URL::to('/chi-tiet-san-pham/'.$pro->product_id)}}">
-                                <img src="{{URL::to('public/upload/product/'.$pro->product_image)}}"
-                                class="img-size" alt="" />
+                                <img  src="{{URL::to('public/upload/product/'.$pro->product_image)}}"
+                                class="img-size img-grow" alt="" />
+                                <img class="img-label" src="{{URL::to('public/frontend/images/label.png')}}" alt="">
                             </a>
                             <h2>{{number_format($pro->product_price).' '.'VND'}}</h2>
                             <p>{{$pro->product_name}}</p>
@@ -45,6 +46,7 @@
 
         @endforeach
     </div>
+
 </div><!--features_items-->
 
 <div class="recommended_items"><!--recommended_items-->
@@ -76,7 +78,7 @@
                                         class="cart_product_price_{{$value['product_id']}}" >
                                         <input type="hidden" value="1"
                                         class="cart_product_qty_{{$value['product_id']}}" >
-                                        <a href="{{URL::to('/chi-tiet-san-pham/'.$value['product_id'])}}">
+                                        <a  href="{{URL::to('/chi-tiet-san-pham/'.$value['product_id'])}}">
                                             <img class="img-size" src="{{URL::to('public/upload/product/'.$value['product_image'])}}" alt="" />
                                         </a>
                                         <h2>{{number_format($value['product_price']).' '.'VND'}}</h2>
@@ -101,4 +103,15 @@
         </a>
     </div>
 </div><!--/recommended_items-->
+<div class="row">
+    <div class="col-sm-5 text-center">
+        <small class="text-muted inline m-t-sm m-b-sm">
+            Hiển thị {{($products->count()>=15)?15:$products->count()}}
+            /{{$products->count()}} sản phẩm
+        </small>
+    </div>
+    <div class="col-sm-7 text-right text-center-xs">
+        {{$products->links()}}
+    </div>
+</div>
 @endsection

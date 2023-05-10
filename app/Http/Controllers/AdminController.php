@@ -61,6 +61,7 @@ class AdminController extends Controller
         if($result){
             Session::put('admin_name',$result->admin_name);
             Session::put('admin_id',$result->admin_id);
+            Session::put('success','Bạn đã đăng nhập thành công');
             return Redirect::to('/dashboard');
         }else{
             Session::put('message',"Tài khoản hoặc mật khẩu sai, vui lòng đăng nhập lại");
@@ -91,6 +92,7 @@ class AdminController extends Controller
             );
         }
         //return $statiticals[0];
+        Session::put('success','Số liệu đã được thống kê trên biểu đồ');
         return json_encode($chart_data);
     }
 
